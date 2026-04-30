@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxygen Medical Diagnostic Lab | Precision Diagnostics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .clinical-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { motion, AnimatePresence } = FramerMotion;
+
+        // Simplified Icons since Lucide needs a separate bundle
+        const Icon = ({ name }) => {
+            const icons = {
+                search: '🔍',
+                calendar: '📅',
+                shield: '🛡️',
+                clock: '🕒',
+                dna: '🧬',
+                truck: '🚚',
+                activity: '📈',
+                chevron: '→',
+                star: '⭐',
+                quote: '“'
+            };
+            return <span className="text-lg">{icons[name] || '🧪'}</span>;
+        };
+
+        const App = () => {
+            const [query, setQuery] = useState('');
+            const [results, setResults] = useState([]);
+            const mockTests = [
+                { name: "Lipid Panel", category: "Blood Work", price: "$45" },
+                { name: "Vitamin D", category: "Wellness", price: "$60" },
+                { name: "HbA1c", category: "Blood Work", price: "$35" },
+                { name: "Drug Screen", category: "Toxicology", price: "$120" },
+            ];
+
+            const handleSearch = (e) => {
+                const val = e.target.value;
+                setQuery(val);
+                if (val.length > 1) {
+                    setResults(mockTests.filter(t => t.name.toLowerCase().includes(val.toLowerCase())));
+                } else { setResults([]); }
+            };
+
+            return (
+                <div className="min-h-screen">
+                    {/* Navigation */}
+                    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-[#003A70] rounded-lg flex items-center justify-center text-white font-bold">O</div>
+                            <span className="text-xl font-bold text-[#003A70]">Oxygen <span className="text-blue-600">Medical</span></span>
+                        </div>
+                        <button className="px-5 py-2 rounded-xl bg-[#003A70] text-white font-semibold text-sm">Book Now</button>
+                    </nav>
+
+                    {/* Hero */}
+                    <section className="relative pt-32 pb-20 px-6 text-center bg-slate-50 overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                            <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+                            <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-teal-50 rounded-full blur-3xl opacity-50"></div>
+                        </div>
+                        <div className="relative z-10 max-w-4xl mx-auto">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold mb-6">
+                                <Icon name="shield" /> CLIA Certified Laboratory
+                            </div>
+                            <h1 className="text-5xl md:text-7xl font-bold text-[#003A70] mb-6">Precision Diagnostics <br/> <span className="text-blue-600">For Total Certainty.</span></h1>
+                            <p className="text-lg text-slate-600 mb-12 max-w-2xl mx-auto">Experience the gold standard in medical testing. Unmatched accuracy, absolute confidentiality.</p>
+
+                            <div className="relative max-w-xl mx-auto">
+                                <div className="relative flex items-center">
+                                    <div className="absolute left-5 text-slate-400"><Icon name="search" /></div>
+                                    <input
+                                        type="text"
+                                        value={query}
+                                        onChange={handleSearch}
+                                        placeholder="Search for a test (e.g. Lipid Panel...)"
+                                        className="w-full pl-14 pr-32 py-5 rounded-2xl bg-white border border-slate-200 shadow-xl outline-none focus:ring-4 focus:ring-blue-100"
+                                    />
+                                    <button className="absolute right-3 px-6 py-3 rounded-xl bg-[#003A70] text-white font-semibold">Book Now</button>
+                                </div>
+                                {results.length > 0 && (
+                                    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden text-left z-50">
+                                        {results.map((test, i) => (
+                                            <div key={i} className="p-4 hover:bg-blue-50 cursor-pointer border-b border-slate-50 last:border-0 flex justify-between">
+                                                <div>
+                                                    <span className="block font-bold text-slate-800">{test.name}</span>
+                                                    <span className="text-xs text-slate-500">{test.category}</span>
+                                                </div>
+                                                <span className="font-semibold text-slate-700">{test.price}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Trust Bar */}
+                    <section className="bg-white border-y border-slate-100 py-12 px-6">
+                        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <div className="text-2xl font-bold text-[#003A70]">99.9%</div>
+                                <div className="text-xs text-slate-500 uppercase font-medium">Accuracy Rate</div>
+                            </div>
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <div className="text-2xl font-bold text-[#003A70]">10k+</div>
+                                <div className="text-xs text-slate-500 uppercase font-medium">Tests/Mo</div>
+                            </div>
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <div className="text-2xl font-bold text-[#003A70]">Yes</div>
+                                <div className="text-xs text-slate-500 uppercase font-medium">ISO Certified</div>
+                            </div>
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <div className="text-2xl font-bold text-[#003A70]">4.9/5</div>
+                                <div className="text-xs text-slate-500 uppercase font-medium">Satisfaction</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Services Section */}
+                    <section className="py-24 px-6 bg-slate-50">
+                        <div className="max-w-7xl mx-auto text-center mb-16">
+                            <h2 className="text-4xl font-bold text-[#003A70] mb-4">Our Diagnostic Suites</h2>
+                            <p className="text-slate-600 max-w-2xl mx-auto">Professional clinical testing with uncompromising precision.</p>
+                        </div>
+                        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {[
+                                { title: "24-Hour Drug Test", icon: "clock", tags: ["Fast", "Reliable"], desc: "Confidential screening available around the clock." },
+                                { title: "DNA Testing", icon: "dna", tags: ["Accurate", "Blood"], desc: "Professional genetic profiling and kinship testing." },
+                                { title: "DOT Mobile", icon: "truck", tags: ["On-Site", "Compliance"], desc: "We bring the lab to you for corporate wellness." },
+                                { title: "Blood Work", icon: "activity", tags: ["Precision", "Full Panel"], desc: "Complete diagnostic blood panels and screenings." },
+                            ].map((s, i) => (
+                                <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all group flex flex-col h-full">
+                                    <div className="mb-6 p-3 rounded-xl bg-blue-50 text-blue-600 w-fit group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                        <Icon name={s.icon} />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-slate-800 mb-3">{s.title}</h3>
+                                    <p className="text-slate-600 mb-6 flex-grow">{s.desc}</p>
+                                    <div className="flex gap-2 mb-8">
+                                        {s.tags.map(t => <span key={t} className="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-500">{t}</span>)}
+                                    </div>
+                                    <button className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all">Book Now</button>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="bg-slate-900 text-slate-400 py-16 px-6 text-center">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="text-white font-bold text-xl mb-4">Oxygen Medical</div>
+                            <p className="text-sm mb-8">© 2026 Oxygen Medical Diagnostic Lab. All Rights Reserved.</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Service | Oxygen Medical Diagnostic Lab</title>
+    <meta name="description" content="Book your drug testing, DNA test, or certified training program with Oxygen Medical Diagnostic Lab.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-hero{min-height:350px;}
+        .booking-container{max-width:800px;margin:-60px auto 100px;background:var(--white);border-radius:20px;box-shadow:var(--shadow-xl);position:relative;z-index:10;padding:48px;border:1px solid var(--slate-100);}
+        .form-group{margin-bottom:24px;}
+        .form-group label{display:block;font-weight:600;color:var(--navy);margin-bottom:8px;font-size:0.9rem;}
+        .form-control{width:100%;padding:14px 16px;border:1px solid var(--slate-200);border-radius:8px;font-family:inherit;font-size:1rem;color:var(--slate-700);transition:all 0.2s;}
+        .form-control:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-light);}
+        select.form-control{appearance:none;background:url('data:image/svg+xml;utf8,<svg fill="%23334155" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;background-size:20px;}
+        .btn-submit{width:100%;background:var(--red);color:var(--white);padding:16px;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:0.04em;transition:all 0.3s;}
+        .btn-submit:hover{background:#A51F1F;transform:translateY(-2px);box-shadow:0 8px 24px rgba(198,40,40,0.25);}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+        @media(max-width:768px){.form-row{grid-template-columns:1fr;gap:0;}.booking-container{padding:32px 24px;margin-top:-30px;}}
+    </style>
+</head>
+<body>
+    <div class="top-bar"><div class="container"><div class="top-bar-left"><a href="tel:312-772-3381"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 312-772-3381</a><span>|</span><a href="tel:779-236-7071"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> 779-236-7071</a></div><div class="top-bar-right"><a href="mailto:info@omdlaboratory.com"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@omdlaboratory.com</a><span>|</span><span>Mon-Fri 9:00AM – 5:00PM</span></div></div></div>
+
+    <header class="header" id="header"><div class="container">
+        <a href="index.html" class="logo-area">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="#003A70"/><path d="M24 10C16.268 10 10 16.268 10 24C10 31.732 16.268 38 24 38C31.732 38 38 31.732 38 24C38 16.268 31.732 10 24 10ZM24 34C18.477 34 14 29.523 14 24C14 18.477 18.477 14 24 14C29.523 14 34 18.477 34 24C34 29.523 29.523 34 24 34Z" fill="white"/><path d="M24 18C20.686 18 18 20.686 18 24C18 27.314 20.686 30 24 30C27.314 30 30 27.314 30 24C30 20.686 27.314 18 24 18Z" fill="#00A3B5"/></svg>
+            <div class="logo-text"><span class="brand">Oxygen Medical Diagnostic Lab</span><span class="tagline">Drug &amp; Alcohol Testing</span></div>
+        </a>
+        <nav><ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="services.html#training">Training</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="booking.html" class="nav-cta active">Book Now</a></li>
+        </ul></nav>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div></header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-close" id="mobileClose">✕</button>
+        <a href="index.html">Home</a><a href="services.html">Services</a><a href="services.html#training">Training</a><a href="about.html">About Us</a><a href="contact.html">Contact</a><a href="booking.html" style="color:var(--red);font-weight:800;">Book Now</a>
+    </div>
+
+    <section class="hero page-hero">
+        <div class="hero-bg"></div><div class="hero-overlay"></div>
+        <div class="container"><div class="hero-content">
+            <h1>Book Your Service</h1>
+            <p>Schedule your test, mobile collection, or enroll in our training programs.</p>
+        </div></div>
+    </section>
+
+    <div class="container">
+        <div class="booking-container fade-in">
+            <form onsubmit="event.preventDefault(); alert('Thank you! Your booking request has been submitted. Our team will contact you shortly to confirm your appointment.'); window.location.href='index.html';">
+                <div class="form-row">
+                    <div class="form-group"><label for="firstName">First Name</label><input type="text" id="firstName" class="form-control" placeholder="Jane" required></div>
+                    <div class="form-group"><label for="lastName">Last Name</label><input type="text" id="lastName" class="form-control" placeholder="Doe" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" class="form-control" placeholder="jane@example.com" required></div>
+                    <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone" class="form-control" placeholder="(555) 000-0000" required></div>
+                </div>
+                <div class="form-group">
+                    <label for="serviceType">Select Service / Training Program</label>
+                    <select id="serviceType" class="form-control" required>
+                        <option value="" disabled selected>Please select an option...</option>
+                        <optgroup label="Diagnostic Services">
+                            <option value="breath-alcohol">Breath Alcohol Test</option>
+                            <option value="urine-drug">Urine Drug Test (5/10/13 Panel)</option>
+                            <option value="dna-testing">DNA Testing (Blood/Swab)</option>
+                            <option value="blood-work">Full Panel Blood Work</option>
+                            <option value="mobile">On-Site Mobile Collection</option>
+                            <option value="tpa-consortium">TPA / Consortium Enrollment ($99.00)</option>
+                            <option value="notary">Notary Public</option>
+                        </optgroup>
+                        <optgroup label="Certified Training Programs">
+                            <option value="screening-tech">Screening Test Technician Training ($300.00)</option>
+                            <option value="dna-collector">DNA Collector Training ($225.00)</option>
+                            <option value="bat-tech">DOT Breath Alcohol Technician Training ($1,800.00)</option>
+                            <option value="specimen-collector">DOT Specimen Collector + 5 Mocks ($350.00)</option>
+                            <option value="certified-trainer">Drug &amp; Alcohol Collection by Certified Trainer ($225 - $1,800)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="date">Preferred Date</label><input type="date" id="date" class="form-control" required></div>
+                    <div class="form-group"><label for="time">Preferred Time</label><input type="time" id="time" class="form-control" required></div>
+                </div>
+                <div class="form-group"><label for="notes">Additional Notes (Optional)</label><textarea id="notes" class="form-control" rows="4" placeholder="Any special requirements..."></textarea></div>
+                <button type="submit" class="btn-submit">Submit Booking Request</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer"><div class="container">
+        <div class="footer-grid">
+            <div><div class="footer-brand">Oxygen Medical Diagnostic Lab</div><p>Your trusted partner for professional drug &amp; alcohol testing, DNA testing, certified training, and DOT compliance services in Merrillville, Indiana.</p></div>
+            <div><h4>Services</h4><ul class="footer-links"><li><a href="services.html">Breath Alcohol Test</a></li><li><a href="services.html">Urine Drug Test</a></li><li><a href="services.html">DNA Testing</a></li><li><a href="services.html">Blood Work</a></li><li><a href="services.html">Mobile Testing</a></li></ul></div>
+            <div><h4>Training</h4><ul class="footer-links"><li><a href="services.html#training">Screening Technician</a></li><li><a href="services.html#training">DNA Collector</a></li><li><a href="services.html#training">BAT Technician</a></li><li><a href="services.html#training">DOT Specimen Collector</a></li></ul></div>
+            <div><h4>Contact</h4><ul class="footer-links"><li><a href="tel:312-772-3381">📞 312-772-3381</a></li><li><a href="tel:779-236-7071">📱 779-236-7071</a></li><li><a href="mailto:info@omdlaboratory.com">✉️ info@omdlaboratory.com</a></li><li><a href="contact.html">📍 8300 Broadway Unit A1, Merrillville, IN 46410</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>Copyright © 2026 OXYGEN MEDICAL DIAGNOSTIC LAB LLC. All Rights Reserved.</p></div>
+    </div></footer>
+
+    <script>
+        window.addEventListener('scroll',()=>{document.getElementById('header').classList.toggle('scrolled',window.scrollY>10);});
+        document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('mobileMenu').classList.add('open');});
+        document.getElementById('mobileClose').addEventListener('click',closeMenu);
+        function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');}
+        const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});},{threshold:0.1});
+        document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+    </script>
+</body>
+</html>

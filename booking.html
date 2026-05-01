@@ -54,7 +54,7 @@
 
     <div class="container">
         <div class="booking-container fade-in">
-            <form onsubmit="event.preventDefault(); alert('Thank you! Your booking request has been submitted. Our team will contact you shortly to confirm your appointment.'); window.location.href='diagnostic.html';">
+            <form class="booking-form">
                 <div class="form-row">
                     <div class="form-group"><label for="firstName">First Name</label><input type="text" id="firstName" class="form-control" placeholder="Jane" required></div>
                     <div class="form-group"><label for="lastName">Last Name</label><input type="text" id="lastName" class="form-control" placeholder="Doe" required></div>
@@ -112,6 +112,53 @@
         function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');}
         const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});},{threshold:0.1});
         document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+    </script>
+
+    <script type="module">
+        import { supabase } from './supabase.js';
+
+        document.querySelector('.booking-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Submitting...';
+            btn.disabled = true;
+
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const serviceType = document.getElementById('serviceType').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const notes = document.getElementById('notes').value;
+
+            const { error } = await supabase
+                .from('form_submissions')
+                .insert([
+                    { 
+                        form_type: 'booking', 
+                        first_name: firstName, 
+                        last_name: lastName, 
+                        email: email, 
+                        phone: phone, 
+                        service_requested: serviceType,
+                        date_requested: date,
+                        time_requested: time,
+                        message: notes 
+                    }
+                ]);
+
+            btn.textContent = 'Submit Booking Request';
+            btn.disabled = false;
+
+            if (error) {
+                alert('There was an error submitting your request. Please try again.');
+                console.error(error);
+            } else {
+                alert('Thank you! Your booking request has been submitted. Our team will contact you shortly to confirm your appointment.');
+                window.location.href = 'diagnostic.html';
+            }
+        });
     </script>
 </body>
 </html>

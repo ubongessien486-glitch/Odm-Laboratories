@@ -50,7 +50,7 @@
             position: relative;
             z-index: 10;
         }
-        .brand-bar img { height: 50px; filter: brightness(0) invert(1); }
+        .brand-bar img { height: 50px; background: white; padding: 6px 10px; border-radius: 10px; }
         .brand-bar span {
             font-size: 11px;
             font-weight: 600;
@@ -88,10 +88,17 @@
             flex: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            min-height: 0;
         }
         @media (max-width: 768px) {
-            .gw-split { grid-template-columns: 1fr; }
+            .gw-split { grid-template-columns: 1fr; flex: none; }
+            .gw-card { padding: 40px 24px !important; }
+            .gw-hero-text h1 { font-size: 32px; }
+            .gw-hero-text p { font-size: 15px; }
+            .gw-card__icon { width: 56px; height: 56px; margin-bottom: 20px; }
+            .gw-card h2 { font-size: 24px; }
+            .gw-card__list { margin-bottom: 24px; }
+            .brand-bar { padding: 20px; flex-direction: column; gap: 8px; }
+            .gw-hero-text { padding: 0 20px 30px; }
         }
 
         .gw-card {
@@ -274,7 +281,7 @@
 
         <!-- Brand Bar -->
         <div class="brand-bar">
-            <img src="logo.png" alt="Oxygen Group">
+            <img src="logo.svg" alt="Oxygen Group">
             <span>Oxygen Group</span>
         </div>
 

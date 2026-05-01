@@ -113,6 +113,19 @@ section{padding:72px 0}
 .hc-footer .f-links a{font-size:13px;color:rgba(255,255,255,0.5);transition:.2s}
 .hc-footer .f-links a:hover{color:var(--orange)}
 .hc-footer .copy{font-size:12px;color:rgba(255,255,255,0.3)}
+
+/* MOBILE TWEAKS */
+@media(max-width:600px){
+  .hc-hero{padding:50px 0 40px}
+  .hc-hero h1{font-size:32px}
+  section{padding:40px 0}
+  .form-card{padding:24px}
+  .pipeline-card{padding:24px}
+  .svc-card{padding:20px}
+  .hc-nav .logo img{height:36px}
+  .hc-hero-btns {flex-direction: column; width: 100%;}
+  .btn-o, .btn-w {width: 100%; justify-content: center;}
+}
 </style>
 </head>
 <body>
@@ -120,7 +133,7 @@ section{padding:72px 0}
 <!-- NAV -->
 <nav class="hc-nav">
 <div class="container">
-<a href="index.html" class="logo"><img src="logo.png" alt="Oxygen"> Home Care Agency</a>
+<a href="index.html" class="logo"><img src="logo.svg" alt="Oxygen"> Home Care Agency</a>
 <div class="hc-nav-links">
 <a href="index.html">Gateway</a>
 <a href="#services">Services</a>

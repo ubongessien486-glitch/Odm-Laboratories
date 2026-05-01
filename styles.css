@@ -24,7 +24,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
   font-family: 'Inter', sans-serif;
@@ -32,6 +32,7 @@ body {
   background: var(--white);
   line-height: 1.6;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 a { text-decoration: none; color: inherit; }

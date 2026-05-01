@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxygen Home Care Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#003A70',
+                        teal: '#00A3B5',
+                        tealLight: '#E0F7FA'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .form-control {
+            @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal focus:border-teal outline-none transition-all duration-200 bg-white;
+        }
+        .form-label {
+            @apply block text-sm font-semibold text-navy mb-2;
+        }
+        .btn-primary {
+            @apply w-full bg-teal text-white font-bold py-3 px-6 rounded-lg hover:bg-navy transition-colors duration-300 shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center;
+        }
+        .glass-card {
+            @apply bg-white rounded-2xl shadow-xl p-8 border border-gray-100;
+        }
+        /* Top bar from main site */
+        .top-bar { background: #002347; color: rgba(255,255,255,0.85); font-size: 13px; padding: 8px 0; }
+        .top-bar .container { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .top-bar a { color: #00A3B5; font-weight: 600; text-decoration: none; }
+        
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1200px; margin: 0 auto; }
+        header { background: white; border-bottom: 1px solid #E2E8F0; position: sticky; top: 0; z-index: 50; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <span>8300 BROADWAY UNIT A1 MERRILLVILLE, NW INDIANA 46410</span>
+            <span><a href="tel:312-772-3381">312-772-3381</a> / <a href="tel:779-236-7071">779-236-7071</a></span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-inner">
+            <a href="index.html" class="flex items-center gap-3 font-extrabold text-navy text-lg no-underline">
+                <img src="logo.png" alt="Oxygen Logo" class="h-12 object-contain">
+                <span class="hidden sm:inline">Home Care Agency</span>
+            </a>
+            <a href="index.html" class="text-sm font-semibold text-gray-600 hover:text-navy transition-colors">Back to Gateway</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-extrabold text-navy tracking-tight sm:text-5xl mb-4">Compassionate In-Home Care</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Please select the form below that best describes your needs. We are here to support families and partner with healthcare facilities.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            
+            <!-- FORM 1: Families -->
+            <div class="glass-card">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-tealLight rounded-full flex items-center justify-center text-teal">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-navy">Request Care (Families)</h2>
+                </div>
+
+                <form id="familyForm" class="space-y-5">
+                    <div>
+                        <label class="form-label">Patient Name</label>
+                        <input type="text" id="patient_name" required class="form-control" placeholder="Jane Doe">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="form-label">Phone</label>
+                            <input type="tel" id="f_phone" required class="form-control" placeholder="(555) 000-0000">
+                        </div>
+                        <div>
+                            <label class="form-label">Email</label>
+                            <input type="email" id="f_email" required class="form-control" placeholder="jane@example.com">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Location / City</label>
+                        <input type="text" id="location" required class="form-control" placeholder="Merrillville, IN">
+                    </div>
+                    <div>
+                        <label class="form-label">Urgency</label>
+                        <select id="urgency" required class="form-control">
+                            <option value="">Select urgency...</option>
+                            <option value="Immediate (24–48 hrs)">Immediate (24–48 hrs)</option>
+                            <option value="This week">This week</option>
+                            <option value="Just exploring">Just exploring</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Care Needs</label>
+                        <select id="care_needs" required class="form-control">
+                            <option value="">Select primary need...</option>
+                            <option value="Personal care">Personal care</option>
+                            <option value="Post-hospital support">Post-hospital support</option>
+                            <option value="Dementia care">Dementia care</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="btnFamily" class="btn-primary mt-6">
+                        <span id="btnFamilyText">Submit Request</span>
+                    </button>
+                    <div id="familySuccess" class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200 font-medium">Request submitted successfully. We will contact you soon.</div>
+                    <div id="familyError" class="hidden mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 font-medium">Error submitting request. Please try again.</div>
+                </form>
+            </div>
+
+            <!-- FORM 2: Facilities -->
+            <div class="glass-card bg-gray-50/50">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-navy text-white rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-navy">Referral Partner Contact</h2>
+                </div>
+
+                <form id="referralForm" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="form-label">Your Name</label>
+                            <input type="text" id="r_name" required class="form-control" placeholder="Dr. Smith">
+                        </div>
+                        <div>
+                            <label class="form-label">Facility</label>
+                            <input type="text" id="facility" required class="form-control" placeholder="Mercy Hospital">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Role / Title</label>
+                        <input type="text" id="role" required class="form-control" placeholder="Discharge Planner">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="form-label">Phone</label>
+                            <input type="tel" id="r_phone" required class="form-control" placeholder="(555) 000-0000">
+                        </div>
+                        <div>
+                            <label class="form-label">Email</label>
+                            <input type="email" id="r_email" required class="form-control" placeholder="smith@hospital.com">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">What challenges do you see with discharge?</label>
+                        <textarea id="pain_points" rows="3" required class="form-control resize-none" placeholder="Enter details here..."></textarea>
+                    </div>
+                    <div class="flex items-start mt-4">
+                        <div class="flex items-center h-5">
+                            <input id="fast_response" type="checkbox" class="w-5 h-5 text-teal bg-white border-gray-300 rounded focus:ring-teal">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="fast_response" class="font-medium text-gray-700 cursor-pointer">I would like fast-response support for discharges</label>
+                        </div>
+                    </div>
+                    <button type="submit" id="btnReferral" class="btn-primary mt-6 bg-navy hover:bg-teal">
+                        <span id="btnReferralText">Submit Referral</span>
+                    </button>
+                    <div id="referralSuccess" class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200 font-medium">Referral contact submitted successfully.</div>
+                    <div id="referralError" class="hidden mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 font-medium">Error submitting referral. Please try again.</div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-navy mt-12 py-8 text-center text-white/70 text-sm">
+        <p>&copy; 2026 Oxygen Home Care Agency. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Supabase Logic -->
+    <script>
+        // Replace these with your actual Supabase project URL and Anon Key
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        
+        let supabase = null;
+        if(SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+
+        // Family Form Submit
+        document.getElementById('familyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnFamily');
+            const btnText = document.getElementById('btnFamilyText');
+            btn.disabled = true;
+            btnText.innerText = 'Submitting...';
+            document.getElementById('familySuccess').classList.add('hidden');
+            document.getElementById('familyError').classList.add('hidden');
+
+            const payload = {
+                patient_name: document.getElementById('patient_name').value,
+                phone: document.getElementById('f_phone').value,
+                email: document.getElementById('f_email').value,
+                location: document.getElementById('location').value,
+                urgency: document.getElementById('urgency').value,
+                care_needs: document.getElementById('care_needs').value,
+                status: '1. New Inquiry'
+            };
+
+            if(!supabase) {
+                // Mock success if Supabase isn't configured yet
+                setTimeout(() => {
+                    document.getElementById('familySuccess').classList.remove('hidden');
+                    document.getElementById('familyForm').reset();
+                    btn.disabled = false;
+                    btnText.innerText = 'Submit Request';
+                }, 1000);
+                return;
+            }
+
+            const { data, error } = await supabase.from('patient_intake').insert([payload]);
+            
+            btn.disabled = false;
+            btnText.innerText = 'Submit Request';
+            
+            if (error) {
+                document.getElementById('familyError').classList.remove('hidden');
+                console.error(error);
+            } else {
+                document.getElementById('familySuccess').classList.remove('hidden');
+                document.getElementById('familyForm').reset();
+            }
+        });
+
+        // Referral Form Submit
+        document.getElementById('referralForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnReferral');
+            const btnText = document.getElementById('btnReferralText');
+            btn.disabled = true;
+            btnText.innerText = 'Submitting...';
+            document.getElementById('referralSuccess').classList.add('hidden');
+            document.getElementById('referralError').classList.add('hidden');
+
+            const payload = {
+                name: document.getElementById('r_name').value,
+                facility: document.getElementById('facility').value,
+                role: document.getElementById('role').value,
+                phone: document.getElementById('r_phone').value,
+                email: document.getElementById('r_email').value,
+                pain_points: document.getElementById('pain_points').value,
+                fast_response_requested: document.getElementById('fast_response').checked,
+                pipeline_stage: '1. New Contact'
+            };
+
+            if(!supabase) {
+                // Mock success if Supabase isn't configured yet
+                setTimeout(() => {
+                    document.getElementById('referralSuccess').classList.remove('hidden');
+                    document.getElementById('referralForm').reset();
+                    btn.disabled = false;
+                    btnText.innerText = 'Submit Referral';
+                }, 1000);
+                return;
+            }
+
+            const { data, error } = await supabase.from('referral_sources').insert([payload]);
+            
+            btn.disabled = false;
+            btnText.innerText = 'Submit Referral';
+            
+            if (error) {
+                document.getElementById('referralError').classList.remove('hidden');
+                console.error(error);
+            } else {
+                document.getElementById('referralSuccess').classList.remove('hidden');
+                document.getElementById('referralForm').reset();
+            }
+        });
+    </script>
+</body>
+</html>

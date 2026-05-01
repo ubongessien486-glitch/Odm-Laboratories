@@ -3,172 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome | Oxygen Group</title>
-    <meta name="description" content="Oxygen Group: Providing professional Diagnostic Lab services and compassionate Home Care Agency services.">
-    <link rel="stylesheet" href="styles.css">
+    <title>Oxygen Group | Diagnostic Lab & Home Care Agency</title>
+    <meta name="description" content="Oxygen Group provides professional Diagnostic Lab testing and compassionate Home Care Agency services across Indiana and beyond.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --navy: #003A70;
+            --navy-dark: #001f3f;
+            --teal: #00A3B5;
+            --teal-glow: rgba(0,163,181,0.15);
+            --white: #ffffff;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-400: #94A3B8;
+            --gray-600: #475569;
+            --gray-800: #1E293B;
+            --warm: #FFF8F0;
+            --warm-accent: #E86C2A;
+        }
+        html { scroll-behavior: smooth; }
         body {
-            background-color: var(--gray-50);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-800);
+            background: var(--navy-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* ── FULL-SCREEN GATEWAY ── */
+        .gateway {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-        .gateway-hero {
-            padding: 80px 24px 40px;
-            text-align: center;
-        }
-        .gateway-hero img {
-            height: 64px;
-            margin: 0 auto 32px;
-        }
-        .gateway-hero h1 {
-            font-size: 40px;
-            font-weight: 800;
-            color: var(--navy);
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-        }
-        .gateway-hero p {
-            font-size: 18px;
-            color: var(--gray-600);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .gateway-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            max-width: 900px;
-            margin: 0 auto 80px;
-            padding: 0 24px;
-        }
-        @media (max-width: 768px) {
-            .gateway-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .gateway-card {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--gray-200);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .gateway-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--teal);
-        }
-        .gc-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--teal-light);
-            border-radius: 50%;
+
+        /* ── TOP BRAND BAR ── */
+        .brand-bar {
+            padding: 28px 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            margin-bottom: 24px;
-            color: var(--teal);
+            gap: 14px;
+            position: relative;
+            z-index: 10;
         }
-        .gateway-card h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--navy);
+        .brand-bar img { height: 50px; filter: brightness(0) invert(1); }
+        .brand-bar span {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ── HERO TEXT ── */
+        .gw-hero-text {
+            text-align: center;
+            padding: 0 24px 48px;
+            position: relative;
+            z-index: 10;
+        }
+        .gw-hero-text h1 {
+            font-size: clamp(28px, 5vw, 52px);
+            font-weight: 900;
+            color: var(--white);
+            letter-spacing: -1.5px;
+            line-height: 1.08;
             margin-bottom: 16px;
         }
-        .gateway-card ul {
+        .gw-hero-text h1 span { color: var(--teal); }
+        .gw-hero-text p {
+            font-size: 17px;
+            color: rgba(255,255,255,0.55);
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ── SPLIT CARDS ── */
+        .gw-split {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 0;
+        }
+        @media (max-width: 768px) {
+            .gw-split { grid-template-columns: 1fr; }
+        }
+
+        .gw-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px 72px;
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gw-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .gw-card:hover::before { opacity: 1; }
+
+        /* Card 1: Lab — cool clinical blue */
+        .gw-card--lab {
+            background: linear-gradient(160deg, #00263d 0%, var(--navy) 100%);
+        }
+        .gw-card--lab::before {
+            background: linear-gradient(160deg, var(--navy) 0%, #004a8f 100%);
+        }
+
+        /* Card 2: Home Care — warm sunset */
+        .gw-card--home {
+            background: linear-gradient(160deg, #1a1207 0%, #3d2507 100%);
+        }
+        .gw-card--home::before {
+            background: linear-gradient(160deg, #3d2507 0%, #5a3a10 100%);
+        }
+
+        .gw-card__content {
+            position: relative;
+            z-index: 2;
+            max-width: 380px;
+        }
+
+        .gw-card__icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .gw-card:hover .gw-card__icon {
+            transform: scale(1.1) translateY(-4px);
+        }
+        .gw-card--lab .gw-card__icon {
+            background: rgba(0,163,181,0.15);
+            box-shadow: 0 0 0 0 rgba(0,163,181,0);
+        }
+        .gw-card--lab:hover .gw-card__icon {
+            box-shadow: 0 8px 32px rgba(0,163,181,0.3);
+        }
+        .gw-card--home .gw-card__icon {
+            background: rgba(232,108,42,0.15);
+            box-shadow: 0 0 0 0 rgba(232,108,42,0);
+        }
+        .gw-card--home:hover .gw-card__icon {
+            box-shadow: 0 8px 32px rgba(232,108,42,0.3);
+        }
+
+        .gw-card__label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .gw-card--lab .gw-card__label { color: var(--teal); }
+        .gw-card--home .gw-card__label { color: var(--warm-accent); }
+
+        .gw-card h2 {
+            font-size: clamp(22px, 3vw, 30px);
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            line-height: 1.15;
+        }
+
+        .gw-card__list {
             list-style: none;
             padding: 0;
             margin: 0 0 32px 0;
-            color: var(--gray-600);
-            flex: 1;
         }
-        .gateway-card ul li {
-            margin-bottom: 8px;
-            font-size: 16px;
+        .gw-card__list li {
+            font-size: 14px;
+            color: rgba(255,255,255,0.55);
+            padding: 6px 0;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
-        .gateway-card ul li::before {
-            content: "✓";
-            color: var(--teal);
-            font-weight: bold;
+        .gw-card__list li svg {
+            flex-shrink: 0;
+            opacity: 0.7;
         }
-        .gateway-btn {
-            display: inline-block;
-            background: var(--navy);
+        .gw-card--lab .gw-card__list li svg { color: var(--teal); }
+        .gw-card--home .gw-card__list li svg { color: var(--warm-accent); }
+
+        .gw-card__btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 16px 36px;
+            border-radius: 12px;
+            transition: all 0.3s;
             color: var(--white);
-            font-weight: 600;
-            font-size: 16px;
-            padding: 16px 32px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            width: 100%;
-            text-decoration: none;
         }
-        .gateway-card:hover .gateway-btn {
+        .gw-card--lab .gw-card__btn {
             background: var(--teal);
         }
-        .gateway-footer {
-            margin-top: auto;
+        .gw-card--lab .gw-card__btn:hover {
+            background: #008fa0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0,163,181,0.4);
+        }
+        .gw-card--home .gw-card__btn {
+            background: var(--warm-accent);
+        }
+        .gw-card--home .gw-card__btn:hover {
+            background: #c95a1e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(232,108,42,0.4);
+        }
+        .gw-card__btn svg {
+            transition: transform 0.3s;
+        }
+        .gw-card:hover .gw-card__btn svg {
+            transform: translateX(4px);
+        }
+
+        /* ── BOTTOM FOOTER ── */
+        .gw-footer {
             text-align: center;
-            padding: 24px;
-            color: var(--gray-400);
-            font-size: 14px;
+            padding: 20px 24px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.5px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* ── FLOATING PARTICLES (subtle) ── */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.04;
+            animation: float 20s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-30px) translateX(15px); }
+            50% { transform: translateY(-10px) translateX(-20px); }
+            75% { transform: translateY(-40px) translateX(10px); }
         }
     </style>
 </head>
 <body>
+    <!-- Subtle bg particles -->
+    <div class="particle" style="width:300px;height:300px;background:var(--teal);top:10%;left:-5%;animation-delay:0s;"></div>
+    <div class="particle" style="width:200px;height:200px;background:var(--warm-accent);top:60%;right:-3%;animation-delay:-7s;"></div>
 
-    <div class="gateway-hero">
-        <img src="logo.png" alt="Oxygen Group Logo">
-        <h1>Welcome to the Oxygen Group</h1>
-        <p>Please select the service you are looking for.</p>
-    </div>
+    <div class="gateway">
 
-    <div class="gateway-grid">
-        <!-- Diagnostic Lab Card -->
-        <div class="gateway-card">
-            <div class="gc-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
-            </div>
-            <h2>Oxygen Diagnostic Lab</h2>
-            <ul>
-                <li>DOT Testing & Compliance</li>
-                <li>DNA & Paternity Testing</li>
-                <li>Urine & Blood Analysis</li>
-                <li>Mobile Testing Services</li>
-            </ul>
-            <a href="diagnostic.html" class="gateway-btn">Enter Diagnostic Lab</a>
+        <!-- Brand Bar -->
+        <div class="brand-bar">
+            <img src="logo.png" alt="Oxygen Group">
+            <span>Oxygen Group</span>
         </div>
 
-        <!-- Home Care Agency Card -->
-        <div class="gateway-card">
-            <div class="gc-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/><path d="M9 16h6"/></svg>
-            </div>
-            <h2>Oxygen Home Care Agency</h2>
-            <ul>
-                <li>In-Home Care Services</li>
-                <li>Professional Nursing</li>
-                <li>Post-Hospital Support</li>
-                <li>Dementia & Companion Care</li>
-            </ul>
-            <a href="homecare.html" class="gateway-btn">Enter Home Care</a>
+        <!-- Hero Text -->
+        <div class="gw-hero-text">
+            <h1>Two Services.<br><span>One Mission.</span></h1>
+            <p>Choose the Oxygen service that fits your needs — clinical diagnostics or compassionate in-home care.</p>
+        </div>
+
+        <!-- Split Cards -->
+        <div class="gw-split">
+
+            <!-- Diagnostic Lab -->
+            <a href="diagnostic.html" class="gw-card gw-card--lab" id="card-lab">
+                <div class="gw-card__content">
+                    <div class="gw-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+                    </div>
+                    <div class="gw-card__label">Clinical Services</div>
+                    <h2>Oxygen<br>Diagnostic Lab</h2>
+                    <ul class="gw-card__list">
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> DOT Drug & Alcohol Testing</li>
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> DNA & Paternity Analysis</li>
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Urine, Blood & Breath Panels</li>
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 24/7 Mobile Testing</li>
+                    </ul>
+                    <span class="gw-card__btn">
+                        Enter Diagnostic Lab
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Home Care Agency -->
+            <a href="homecare.html" class="gw-card gw-card--home" id="card-home">
+                <div class="gw-card__content">
+                    <div class="gw-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--warm-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <div class="gw-card__label">HCSSA Licensed</div>
+                    <h2>Oxygen<br>Home Care Agency</h2>
+                    <ul class="gw-card__list">
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Personal & Companion Care</li>
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Post-Hospital Discharge Support</li>
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Skilled Nursing & Dementia Care</li>
+                        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Fast-Response Discharge Partnerships</li>
+                    </ul>
+                    <span class="gw-card__btn">
+                        Enter Home Care
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="gw-footer">
+            &copy; 2026 Oxygen Group LLC &middot; Merrillville, Indiana &middot; All Rights Reserved
         </div>
     </div>
-
-    <div class="gateway-footer">
-        &copy; 2026 Oxygen Group. All Rights Reserved.
-    </div>
-
 </body>
 </html>

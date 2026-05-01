@@ -1,293 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxygen Home Care Agency</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        navy: '#003A70',
-                        teal: '#00A3B5',
-                        tealLight: '#E0F7FA'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .form-control {
-            @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal focus:border-teal outline-none transition-all duration-200 bg-white;
-        }
-        .form-label {
-            @apply block text-sm font-semibold text-navy mb-2;
-        }
-        .btn-primary {
-            @apply w-full bg-teal text-white font-bold py-3 px-6 rounded-lg hover:bg-navy transition-colors duration-300 shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center;
-        }
-        .glass-card {
-            @apply bg-white rounded-2xl shadow-xl p-8 border border-gray-100;
-        }
-        /* Top bar from main site */
-        .top-bar { background: #002347; color: rgba(255,255,255,0.85); font-size: 13px; padding: 8px 0; }
-        .top-bar .container { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .top-bar a { color: #00A3B5; font-weight: 600; text-decoration: none; }
-        
-        .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1200px; margin: 0 auto; }
-        header { background: white; border-bottom: 1px solid #E2E8F0; position: sticky; top: 0; z-index: 50; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oxygen Home Care Agency | Compassionate In-Home Care</title>
+<meta name="description" content="HCSSA licensed home care agency providing personal care, post-hospital support, dementia care, and fast-response discharge partnerships.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#003A70;--navy-dark:#001f3f;--orange:#E86C2A;--orange-light:#FFF3EB;--orange-dark:#c95a1e;--white:#fff;--g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g400:#94A3B8;--g600:#475569;--g800:#1E293B;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,0.08)}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--g800);background:var(--white);line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.hc-nav{background:var(--white);border-bottom:1px solid var(--g200);position:sticky;top:0;z-index:100;padding:14px 0}
+.hc-nav .container{display:flex;align-items:center;justify-content:space-between}
+.hc-nav .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--navy)}
+.hc-nav .logo img{height:44px}
+.hc-nav-links{display:flex;align-items:center;gap:6px}
+.hc-nav-links a{font-size:14px;font-weight:500;color:var(--g600);padding:8px 14px;border-radius:8px;transition:.2s}
+.hc-nav-links a:hover{color:var(--navy);background:var(--g100)}
+.hc-nav-links .cta{background:var(--orange);color:var(--white)!important;font-weight:700;padding:10px 20px}
+.hc-nav-links .cta:hover{background:var(--orange-dark)}
+@media(max-width:768px){.hc-nav-links{display:none}}
+
+/* HERO */
+.hc-hero{background:linear-gradient(135deg,var(--navy-dark),var(--navy) 60%,#004a8f);color:var(--white);padding:80px 0 70px;position:relative;overflow:hidden}
+.hc-hero::after{content:'';position:absolute;right:-120px;top:-80px;width:400px;height:400px;border-radius:50%;background:rgba(232,108,42,0.08)}
+.hc-hero .container{position:relative;z-index:2;text-align:center}
+.hc-hero .badge{display:inline-block;background:rgba(232,108,42,0.2);border:1px solid rgba(232,108,42,0.4);color:var(--orange);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 18px;border-radius:50px;margin-bottom:24px}
+.hc-hero h1{font-size:clamp(28px,5vw,48px);font-weight:900;letter-spacing:-1px;line-height:1.1;margin-bottom:18px}
+.hc-hero h1 span{color:var(--orange)}
+.hc-hero p{font-size:18px;color:rgba(255,255,255,0.7);max-width:600px;margin:0 auto 36px}
+.hc-hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-o{background:var(--orange);color:var(--white);font-weight:700;font-size:15px;padding:14px 30px;border-radius:10px;border:none;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn-o:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,108,42,0.35)}
+.btn-w{background:transparent;color:var(--white);font-weight:700;font-size:15px;padding:14px 30px;border-radius:10px;border:2px solid rgba(255,255,255,0.3);cursor:pointer;transition:.2s}
+.btn-w:hover{border-color:var(--white);background:rgba(255,255,255,0.08)}
+
+/* SECTIONS */
+section{padding:72px 0}
+.sec-alt{background:var(--g50)}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.sec-title{font-size:clamp(24px,4vw,36px);font-weight:800;color:var(--navy);line-height:1.15;margin-bottom:14px;letter-spacing:-.5px}
+.sec-desc{font-size:16px;color:var(--g600);max-width:560px;line-height:1.7}
+.sec-header{text-align:center;margin-bottom:48px}
+.sec-header .sec-desc{margin:0 auto}
+
+/* SERVICE CARDS */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px}
+.svc-card{background:var(--white);border:1px solid var(--g200);border-radius:var(--radius);padding:28px;transition:.25s;position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--navy));transform:scaleX(0);transform-origin:left;transition:.3s}
+.svc-card:hover{border-color:var(--orange);box-shadow:var(--shadow);transform:translateY(-4px)}
+.svc-card:hover::before{transform:scaleX(1)}
+.svc-card .ic{width:48px;height:48px;background:var(--orange-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.svc-card h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.svc-card p{font-size:13px;color:var(--g600);line-height:1.6}
+
+/* PIPELINE SECTION */
+.pipeline-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+@media(max-width:768px){.pipeline-grid{grid-template-columns:1fr}}
+.pipeline-card{background:var(--white);border:1px solid var(--g200);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+.pipeline-card h3{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.pipeline-card h3 span{font-size:22px}
+.stage-list{display:flex;flex-direction:column;gap:0}
+.stage{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--g100);font-size:14px;color:var(--g600)}
+.stage:last-child{border-bottom:none}
+.stage-num{width:28px;height:28px;border-radius:50%;background:var(--orange-light);color:var(--orange);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* STATS */
+.stats-bar{background:var(--navy);color:var(--white);padding:48px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+@media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-v{font-size:36px;font-weight:900;color:var(--orange);margin-bottom:4px}
+.stat-l{font-size:12px;color:rgba(255,255,255,0.6);font-weight:500;text-transform:uppercase;letter-spacing:1px}
+
+/* FORMS SECTION */
+.forms-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+@media(max-width:900px){.forms-grid{grid-template-columns:1fr}}
+.form-card{background:var(--white);border:1px solid var(--g200);border-radius:16px;padding:36px;box-shadow:var(--shadow)}
+.form-card h3{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.form-card .sub{font-size:13px;color:var(--g400);margin-bottom:24px}
+.form-card .ic-wrap{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.form-card .ic-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.fm{display:flex;flex-direction:column;gap:16px}
+.fm-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.fm-row{grid-template-columns:1fr}}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:12px;font-weight:600;color:var(--navy);letter-spacing:.3px}
+.fg input,.fg select,.fg textarea{padding:11px 14px;border:1.5px solid var(--g200);border-radius:8px;font-family:inherit;font-size:14px;color:var(--g800);transition:.2s;background:var(--white)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--orange)}
+.fg textarea{resize:vertical;min-height:90px}
+.chk{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--g600);cursor:pointer}
+.chk input{width:18px;height:18px;accent-color:var(--orange);margin-top:2px}
+.fm-btn{background:var(--orange);color:var(--white);font-weight:700;font-size:15px;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.fm-btn:hover{background:var(--orange-dark);transform:translateY(-1px)}
+.fm-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.fm-btn--navy{background:var(--navy)}
+.fm-btn--navy:hover{background:#004a8f}
+.msg{display:none;padding:14px 18px;border-radius:10px;font-weight:600;font-size:14px;margin-top:8px}
+.msg-ok{background:#d1fae5;border:1px solid #6ee7b7;color:#065f46}
+.msg-err{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b}
+
+/* FOOTER */
+.hc-footer{background:var(--navy-dark);color:rgba(255,255,255,0.7);padding:48px 0 24px}
+.hc-footer .container{text-align:center}
+.hc-footer .f-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}
+.hc-footer .f-links a{font-size:13px;color:rgba(255,255,255,0.5);transition:.2s}
+.hc-footer .f-links a:hover{color:var(--orange)}
+.hc-footer .copy{font-size:12px;color:rgba(255,255,255,0.3)}
+</style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+<body>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container">
-            <span>8300 BROADWAY UNIT A1 MERRILLVILLE, NW INDIANA 46410</span>
-            <span><a href="tel:312-772-3381">312-772-3381</a> / <a href="tel:779-236-7071">779-236-7071</a></span>
-        </div>
-    </div>
+<!-- NAV -->
+<nav class="hc-nav">
+<div class="container">
+<a href="index.html" class="logo"><img src="logo.png" alt="Oxygen"> Home Care Agency</a>
+<div class="hc-nav-links">
+<a href="index.html">Gateway</a>
+<a href="#services">Services</a>
+<a href="#how-it-works">How It Works</a>
+<a href="#forms" class="cta">Get Started</a>
+</div>
+</div>
+</nav>
 
-    <!-- Header -->
-    <header>
-        <div class="nav-inner">
-            <a href="index.html" class="flex items-center gap-3 font-extrabold text-navy text-lg no-underline">
-                <img src="logo.png" alt="Oxygen Logo" class="h-12 object-contain">
-                <span class="hidden sm:inline">Home Care Agency</span>
-            </a>
-            <a href="index.html" class="text-sm font-semibold text-gray-600 hover:text-navy transition-colors">Back to Gateway</a>
-        </div>
-    </header>
+<!-- HERO -->
+<section class="hc-hero">
+<div class="container">
+<div class="badge">HCSSA Licensed Home Care</div>
+<h1>Compassionate Care,<br><span>Right At Home.</span></h1>
+<p>From post-hospital discharge to long-term personal care, our licensed caregivers deliver trusted, professional in-home support for your loved ones.</p>
+<div class="hc-hero-btns">
+<a href="#forms" class="btn-o">Request Care Now ↓</a>
+<a href="#services" class="btn-w">Explore Services</a>
+</div>
+</div>
+</section>
 
-    <main class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-extrabold text-navy tracking-tight sm:text-5xl mb-4">Compassionate In-Home Care</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Please select the form below that best describes your needs. We are here to support families and partner with healthcare facilities.</p>
-        </div>
+<!-- STATS -->
+<div class="stats-bar">
+<div class="container">
+<div class="stats-grid">
+<div><div class="stat-v">24/7</div><div class="stat-l">Care Availability</div></div>
+<div><div class="stat-v">Fast</div><div class="stat-l">Discharge Response</div></div>
+<div><div class="stat-v">HCSSA</div><div class="stat-l">State Licensed</div></div>
+<div><div class="stat-v">100%</div><div class="stat-l">Personalized Plans</div></div>
+</div>
+</div>
+</div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            
-            <!-- FORM 1: Families -->
-            <div class="glass-card">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="w-12 h-12 bg-tealLight rounded-full flex items-center justify-center text-teal">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                    </div>
-                    <h2 class="text-2xl font-bold text-navy">Request Care (Families)</h2>
-                </div>
+<!-- SERVICES -->
+<section id="services">
+<div class="container">
+<div class="sec-header">
+<div class="sec-label">What We Offer</div>
+<h2 class="sec-title">In-Home Care Services</h2>
+<p class="sec-desc">Our HCSSA-licensed agency provides a full spectrum of non-medical and skilled home care services.</p>
+</div>
+<div class="svc-grid">
+<div class="svc-card"><div class="ic">🤝</div><h3>Personal Care</h3><p>Bathing, grooming, dressing, mobility assistance, and daily living support with dignity and respect.</p></div>
+<div class="svc-card"><div class="ic">🏥</div><h3>Post-Hospital Support</h3><p>Seamless transition from hospital to home. We coordinate with discharge planners for continuity of care.</p></div>
+<div class="svc-card"><div class="ic">🧠</div><h3>Dementia & Memory Care</h3><p>Specialized care plans for Alzheimer's and dementia patients, ensuring safety and cognitive engagement.</p></div>
+<div class="svc-card"><div class="ic">💊</div><h3>Medication Reminders</h3><p>Timely medication reminders and health monitoring to maintain treatment compliance at home.</p></div>
+<div class="svc-card"><div class="ic">🍽️</div><h3>Meal Prep & Nutrition</h3><p>Healthy meal planning and preparation tailored to dietary restrictions and physician guidance.</p></div>
+<div class="svc-card"><div class="ic">🚗</div><h3>Transportation & Errands</h3><p>Safe transportation to medical appointments, pharmacies, and essential errands.</p></div>
+<div class="svc-card"><div class="ic">💬</div><h3>Companion Care</h3><p>Meaningful companionship reducing isolation — conversation, activities, and emotional support.</p></div>
+<div class="svc-card"><div class="ic">🩺</div><h3>Skilled Nursing</h3><p>Licensed nurses providing wound care, vitals monitoring, IV support, and clinical assessments in-home.</p></div>
+</div>
+</div>
+</section>
 
-                <form id="familyForm" class="space-y-5">
-                    <div>
-                        <label class="form-label">Patient Name</label>
-                        <input type="text" id="patient_name" required class="form-control" placeholder="Jane Doe">
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="form-label">Phone</label>
-                            <input type="tel" id="f_phone" required class="form-control" placeholder="(555) 000-0000">
-                        </div>
-                        <div>
-                            <label class="form-label">Email</label>
-                            <input type="email" id="f_email" required class="form-control" placeholder="jane@example.com">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Location / City</label>
-                        <input type="text" id="location" required class="form-control" placeholder="Merrillville, IN">
-                    </div>
-                    <div>
-                        <label class="form-label">Urgency</label>
-                        <select id="urgency" required class="form-control">
-                            <option value="">Select urgency...</option>
-                            <option value="Immediate (24–48 hrs)">Immediate (24–48 hrs)</option>
-                            <option value="This week">This week</option>
-                            <option value="Just exploring">Just exploring</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="form-label">Care Needs</label>
-                        <select id="care_needs" required class="form-control">
-                            <option value="">Select primary need...</option>
-                            <option value="Personal care">Personal care</option>
-                            <option value="Post-hospital support">Post-hospital support</option>
-                            <option value="Dementia care">Dementia care</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <button type="submit" id="btnFamily" class="btn-primary mt-6">
-                        <span id="btnFamilyText">Submit Request</span>
-                    </button>
-                    <div id="familySuccess" class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200 font-medium">Request submitted successfully. We will contact you soon.</div>
-                    <div id="familyError" class="hidden mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 font-medium">Error submitting request. Please try again.</div>
-                </form>
-            </div>
+<!-- HOW IT WORKS (Pipeline) -->
+<section class="sec-alt" id="how-it-works">
+<div class="container">
+<div class="sec-header">
+<div class="sec-label">Our Process</div>
+<h2 class="sec-title">How Our Care Pipeline Works</h2>
+<p class="sec-desc">Whether you are a family seeking care or a hospital looking for a discharge partner, here is exactly how we manage every relationship.</p>
+</div>
+<div class="pipeline-grid">
+<div class="pipeline-card">
+<h3><span>👨‍👩‍👧</span> Patient Intake Pipeline</h3>
+<div class="stage-list">
+<div class="stage"><span class="stage-num">1</span> New Inquiry (Website / Call / Walk-in)</div>
+<div class="stage"><span class="stage-num">2</span> Contacted & Needs Assessed</div>
+<div class="stage"><span class="stage-num">3</span> Assessment Scheduled</div>
+<div class="stage"><span class="stage-num">4</span> Assessment Completed</div>
+<div class="stage"><span class="stage-num">5</span> Care Started</div>
+<div class="stage"><span class="stage-num">6</span> Active Client</div>
+<div class="stage"><span class="stage-num">7</span> Closed / Completed</div>
+</div>
+</div>
+<div class="pipeline-card">
+<h3><span>🏥</span> Referral Source Pipeline</h3>
+<div class="stage-list">
+<div class="stage"><span class="stage-num">1</span> New Contact Added</div>
+<div class="stage"><span class="stage-num">2</span> First Conversation Completed</div>
+<div class="stage"><span class="stage-num">3</span> Warm Relationship Established</div>
+<div class="stage"><span class="stage-num">4</span> Active Referral Partner</div>
+<div class="stage"><span class="stage-num">5</span> Consistent Monthly Referrer</div>
+<div class="stage"><span class="stage-num">6</span> Dormant (Re-engage Later)</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-            <!-- FORM 2: Facilities -->
-            <div class="glass-card bg-gray-50/50">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="w-12 h-12 bg-navy text-white rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                    </div>
-                    <h2 class="text-2xl font-bold text-navy">Referral Partner Contact</h2>
-                </div>
+<!-- INTAKE FORMS -->
+<section id="forms">
+<div class="container">
+<div class="sec-header">
+<div class="sec-label">Get Started Today</div>
+<h2 class="sec-title">Submit Your Inquiry</h2>
+<p class="sec-desc">Choose the form that best describes you. Families seeking care, or hospitals looking for a discharge partner.</p>
+</div>
+<div class="forms-grid">
 
-                <form id="referralForm" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="form-label">Your Name</label>
-                            <input type="text" id="r_name" required class="form-control" placeholder="Dr. Smith">
-                        </div>
-                        <div>
-                            <label class="form-label">Facility</label>
-                            <input type="text" id="facility" required class="form-control" placeholder="Mercy Hospital">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">Role / Title</label>
-                        <input type="text" id="role" required class="form-control" placeholder="Discharge Planner">
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="form-label">Phone</label>
-                            <input type="tel" id="r_phone" required class="form-control" placeholder="(555) 000-0000">
-                        </div>
-                        <div>
-                            <label class="form-label">Email</label>
-                            <input type="email" id="r_email" required class="form-control" placeholder="smith@hospital.com">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="form-label">What challenges do you see with discharge?</label>
-                        <textarea id="pain_points" rows="3" required class="form-control resize-none" placeholder="Enter details here..."></textarea>
-                    </div>
-                    <div class="flex items-start mt-4">
-                        <div class="flex items-center h-5">
-                            <input id="fast_response" type="checkbox" class="w-5 h-5 text-teal bg-white border-gray-300 rounded focus:ring-teal">
-                        </div>
-                        <div class="ml-3 text-sm">
-                            <label for="fast_response" class="font-medium text-gray-700 cursor-pointer">I would like fast-response support for discharges</label>
-                        </div>
-                    </div>
-                    <button type="submit" id="btnReferral" class="btn-primary mt-6 bg-navy hover:bg-teal">
-                        <span id="btnReferralText">Submit Referral</span>
-                    </button>
-                    <div id="referralSuccess" class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200 font-medium">Referral contact submitted successfully.</div>
-                    <div id="referralError" class="hidden mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 font-medium">Error submitting referral. Please try again.</div>
-                </form>
-            </div>
+<!-- FORM 1: Families -->
+<div class="form-card">
+<div class="ic-wrap"><div class="ic-circle" style="background:var(--orange-light);color:var(--orange)">🏠</div><div><h3>Request Care (Families)</h3><p class="sub">For patients and families seeking in-home care</p></div></div>
+<form id="familyForm" class="fm">
+<div class="fg"><label>Patient Name *</label><input type="text" id="p_name" required placeholder="Jane Doe"></div>
+<div class="fm-row">
+<div class="fg"><label>Phone *</label><input type="tel" id="f_phone" required placeholder="(555) 000-0000"></div>
+<div class="fg"><label>Email *</label><input type="email" id="f_email" required placeholder="jane@email.com"></div>
+</div>
+<div class="fg"><label>Patient Location *</label><input type="text" id="f_loc" required placeholder="City, State"></div>
+<div class="fm-row">
+<div class="fg"><label>Urgency</label><select id="f_urg" required><option value="">Select…</option><option>Immediate (24–48 hrs)</option><option>This week</option><option>Just exploring</option></select></div>
+<div class="fg"><label>Care Needed</label><select id="f_care" required><option value="">Select…</option><option>Personal care</option><option>Post-hospital support</option><option>Dementia care</option><option>Other</option></select></div>
+</div>
+<button type="submit" id="btnF" class="fm-btn">Submit Care Request</button>
+<div id="fOk" class="msg msg-ok">✓ Request received! Our care team will contact you within 24 hours.</div>
+<div id="fErr" class="msg msg-err">Something went wrong. Please call us at 312-772-3381.</div>
+</form>
+</div>
 
-        </div>
-    </main>
+<!-- FORM 2: Hospitals -->
+<div class="form-card" style="background:var(--g50)">
+<div class="ic-wrap"><div class="ic-circle" style="background:#E0E7FF;color:var(--navy)">🏥</div><div><h3>Referral Partner Contact</h3><p class="sub">For hospitals, facilities & discharge planners</p></div></div>
+<form id="refForm" class="fm">
+<div class="fm-row">
+<div class="fg"><label>Your Name *</label><input type="text" id="r_name" required placeholder="Dr. Smith"></div>
+<div class="fg"><label>Facility *</label><input type="text" id="r_fac" required placeholder="Mercy Hospital"></div>
+</div>
+<div class="fg"><label>Role / Title *</label><input type="text" id="r_role" required placeholder="Discharge Planner, RN, Social Worker"></div>
+<div class="fm-row">
+<div class="fg"><label>Phone *</label><input type="tel" id="r_phone" required placeholder="(555) 000-0000"></div>
+<div class="fg"><label>Email *</label><input type="email" id="r_email" required placeholder="smith@hospital.com"></div>
+</div>
+<div class="fg"><label>What challenges do you see with discharge?</label><textarea id="r_pain" placeholder="Tell us about your discharge pain points…"></textarea></div>
+<label class="chk"><input type="checkbox" id="r_fast"> I would like fast-response support for discharges</label>
+<button type="submit" id="btnR" class="fm-btn fm-btn--navy">Submit Referral</button>
+<div id="rOk" class="msg msg-ok">✓ Thank you! A partnership coordinator will reach out shortly.</div>
+<div id="rErr" class="msg msg-err">Something went wrong. Please call us at 312-772-3381.</div>
+</form>
+</div>
 
-    <footer class="bg-navy mt-12 py-8 text-center text-white/70 text-sm">
-        <p>&copy; 2026 Oxygen Home Care Agency. All Rights Reserved.</p>
-    </footer>
+</div>
+</div>
+</section>
 
-    <!-- Supabase Logic -->
-    <script>
-        // Replace these with your actual Supabase project URL and Anon Key
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-        
-        let supabase = null;
-        if(SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        }
+<!-- FOOTER -->
+<footer class="hc-footer">
+<div class="container">
+<div class="f-links">
+<a href="index.html">Oxygen Group</a>
+<a href="diagnostic.html">Diagnostic Lab</a>
+<a href="#services">Services</a>
+<a href="#forms">Contact</a>
+</div>
+<p class="copy">&copy; 2026 Oxygen Home Care Agency LLC &middot; 8300 Broadway Unit A1, Merrillville, IN 46410 &middot; 312-772-3381</p>
+</div>
+</footer>
 
-        // Family Form Submit
-        document.getElementById('familyForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnFamily');
-            const btnText = document.getElementById('btnFamilyText');
-            btn.disabled = true;
-            btnText.innerText = 'Submitting...';
-            document.getElementById('familySuccess').classList.add('hidden');
-            document.getElementById('familyError').classList.add('hidden');
+<script>
+const SB_URL='YOUR_SUPABASE_URL',SB_KEY='YOUR_SUPABASE_ANON_KEY';
+let sb=null;
+if(SB_URL!=='YOUR_SUPABASE_URL') sb=window.supabase.createClient(SB_URL,SB_KEY);
 
-            const payload = {
-                patient_name: document.getElementById('patient_name').value,
-                phone: document.getElementById('f_phone').value,
-                email: document.getElementById('f_email').value,
-                location: document.getElementById('location').value,
-                urgency: document.getElementById('urgency').value,
-                care_needs: document.getElementById('care_needs').value,
-                status: '1. New Inquiry'
-            };
+async function submitForm(formId,table,payload,okId,errId,btnId){
+  const btn=document.getElementById(btnId);
+  btn.disabled=true;btn.textContent='Submitting…';
+  document.getElementById(okId).style.display='none';
+  document.getElementById(errId).style.display='none';
+  try{
+    if(sb){const{error}=await sb.from(table).insert([payload]);if(error)throw error;}
+    else await new Promise(r=>setTimeout(r,800));
+    document.getElementById(okId).style.display='block';
+    document.getElementById(formId).reset();
+  }catch(e){
+    document.getElementById(errId).style.display='block';console.error(e);
+  }
+  btn.disabled=false;btn.textContent=btn.dataset.label;
+}
 
-            if(!supabase) {
-                // Mock success if Supabase isn't configured yet
-                setTimeout(() => {
-                    document.getElementById('familySuccess').classList.remove('hidden');
-                    document.getElementById('familyForm').reset();
-                    btn.disabled = false;
-                    btnText.innerText = 'Submit Request';
-                }, 1000);
-                return;
-            }
+document.getElementById('btnF').dataset.label='Submit Care Request';
+document.getElementById('btnR').dataset.label='Submit Referral';
 
-            const { data, error } = await supabase.from('patient_intake').insert([payload]);
-            
-            btn.disabled = false;
-            btnText.innerText = 'Submit Request';
-            
-            if (error) {
-                document.getElementById('familyError').classList.remove('hidden');
-                console.error(error);
-            } else {
-                document.getElementById('familySuccess').classList.remove('hidden');
-                document.getElementById('familyForm').reset();
-            }
-        });
+document.getElementById('familyForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  submitForm('familyForm','patient_intake',{
+    patient_name:document.getElementById('p_name').value,
+    phone:document.getElementById('f_phone').value,
+    email:document.getElementById('f_email').value,
+    location:document.getElementById('f_loc').value,
+    urgency:document.getElementById('f_urg').value,
+    care_needs:document.getElementById('f_care').value,
+    status:'1. New Inquiry'
+  },'fOk','fErr','btnF');
+});
 
-        // Referral Form Submit
-        document.getElementById('referralForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnReferral');
-            const btnText = document.getElementById('btnReferralText');
-            btn.disabled = true;
-            btnText.innerText = 'Submitting...';
-            document.getElementById('referralSuccess').classList.add('hidden');
-            document.getElementById('referralError').classList.add('hidden');
-
-            const payload = {
-                name: document.getElementById('r_name').value,
-                facility: document.getElementById('facility').value,
-                role: document.getElementById('role').value,
-                phone: document.getElementById('r_phone').value,
-                email: document.getElementById('r_email').value,
-                pain_points: document.getElementById('pain_points').value,
-                fast_response_requested: document.getElementById('fast_response').checked,
-                pipeline_stage: '1. New Contact'
-            };
-
-            if(!supabase) {
-                // Mock success if Supabase isn't configured yet
-                setTimeout(() => {
-                    document.getElementById('referralSuccess').classList.remove('hidden');
-                    document.getElementById('referralForm').reset();
-                    btn.disabled = false;
-                    btnText.innerText = 'Submit Referral';
-                }, 1000);
-                return;
-            }
-
-            const { data, error } = await supabase.from('referral_sources').insert([payload]);
-            
-            btn.disabled = false;
-            btnText.innerText = 'Submit Referral';
-            
-            if (error) {
-                document.getElementById('referralError').classList.remove('hidden');
-                console.error(error);
-            } else {
-                document.getElementById('referralSuccess').classList.remove('hidden');
-                document.getElementById('referralForm').reset();
-            }
-        });
-    </script>
+document.getElementById('refForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  submitForm('refForm','referral_sources',{
+    name:document.getElementById('r_name').value,
+    facility:document.getElementById('r_fac').value,
+    role:document.getElementById('r_role').value,
+    phone:document.getElementById('r_phone').value,
+    email:document.getElementById('r_email').value,
+    pain_points:document.getElementById('r_pain').value,
+    fast_response_requested:document.getElementById('r_fast').checked,
+    pipeline_stage:'1. New Contact'
+  },'rOk','rErr','btnR');
+});
+</script>
 </body>
 </html>

@@ -148,6 +148,24 @@
                     }
                 ]);
 
+            // Web3Forms Integration for instant email notification
+            const formData = new FormData();
+            formData.append('access_key', '6ca01595-fa75-4d60-a4b5-2f8a9aee2c3d');
+            formData.append('subject', 'New Booking Request - Oxygen Group');
+            formData.append('First Name', firstName);
+            formData.append('Last Name', lastName);
+            formData.append('Email', email);
+            formData.append('Phone', phone);
+            formData.append('Service Requested', serviceType);
+            formData.append('Preferred Date', date);
+            formData.append('Preferred Time', time);
+            formData.append('Notes', notes);
+
+            await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+
             btn.textContent = 'Submit Booking Request';
             btn.disabled = false;
 

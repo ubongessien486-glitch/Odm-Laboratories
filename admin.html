@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Oxygen Group</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="styles.css?v=3000">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #0f172a; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; margin: 0; display: none; }
+        body.ready { display: block; }
+
+        /* ── TOP NAV ── */
+        .admin-nav {
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .admin-nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 18px;
+            color: #f8a825;
+        }
+        .admin-nav-brand img { height: 36px; background: white; padding: 4px 6px; border-radius: 6px; }
+        .admin-badge { background: #f8a825; color: #0f172a; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; }
+        .admin-user { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #94a3b8; }
+        .btn-nav-logout { background: #334155; border: none; color: #e2e8f0; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: background 0.2s; }
+        .btn-nav-logout:hover { background: #dc2626; }
+
+        /* ── LAYOUT ── */
+        .admin-layout { display: flex; min-height: calc(100vh - 60px); }
+
+        /* ── SIDEBAR ── */
+        .admin-sidebar {
+            width: 220px;
+            background: #1e293b;
+            border-right: 1px solid #334155;
+            padding: 24px 0;
+            flex-shrink: 0;
+        }
+        .sidebar-section { padding: 0 16px; margin-bottom: 8px; }
+        .sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #475569; padding: 8px 8px 4px; }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .sidebar-link:hover { background: #334155; color: #e2e8f0; }
+        .sidebar-link.active { background: #f8a825; color: #0f172a; font-weight: 700; }
+        .sidebar-link svg { opacity: 0.7; flex-shrink: 0; }
+        .sidebar-link.active svg { opacity: 1; }
+
+        /* ── MAIN CONTENT ── */
+        .admin-main { flex: 1; padding: 32px; overflow-y: auto; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        /* ── PAGE HEADER ── */
+        .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+        .page-header h1 { font-size: 26px; font-weight: 800; color: #f1f5f9; margin: 0; }
+        .page-header p { font-size: 14px; color: #64748b; margin: 4px 0 0; }
+
+        /* ── CARDS ── */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .stat-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; }
+        .stat-value { font-size: 36px; font-weight: 800; color: #f8a825; }
+        .stat-label { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+        /* ── TABLES ── */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #475569; padding: 10px 16px; border-bottom: 1px solid #334155; }
+        .data-table td { padding: 14px 16px; border-bottom: 1px solid #1e293b; font-size: 14px; color: #cbd5e1; vertical-align: middle; }
+        .data-table tr:hover td { background: #1e293b; }
+        .pill { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+        .pill-green { background: #14532d; color: #86efac; }
+        .pill-gray { background: #334155; color: #94a3b8; }
+        .pill-blue { background: #1e3a5f; color: #93c5fd; }
+        .pill-gold { background: #451a03; color: #fcd34d; }
+
+        /* ── BUTTONS ── */
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
+        .btn-primary { background: #f8a825; color: #0f172a; }
+        .btn-primary:hover { background: #fbbf24; transform: translateY(-1px); }
+        .btn-danger { background: #7f1d1d; color: #fca5a5; }
+        .btn-danger:hover { background: #dc2626; color: white; }
+        .btn-secondary { background: #334155; color: #e2e8f0; }
+        .btn-secondary:hover { background: #475569; }
+        .btn-sm { padding: 5px 12px; font-size: 12px; }
+        .btn-icon { background: none; border: none; cursor: pointer; padding: 6px; border-radius: 6px; color: #64748b; transition: all 0.2s; display: inline-flex; align-items: center; }
+        .btn-icon:hover { background: #334155; color: #e2e8f0; }
+        .btn-icon.delete:hover { background: #7f1d1d; color: #fca5a5; }
+
+        /* ── FORMS ── */
+        .form-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
+        .form-card h2 { font-size: 16px; font-weight: 700; color: #f1f5f9; margin: 0 0 20px; padding-bottom: 16px; border-bottom: 1px solid #334155; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-control {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus { outline: none; border-color: #f8a825; }
+        .form-control option { background: #1e293b; }
+        textarea.form-control { min-height: 90px; resize: vertical; }
+        .upload-area {
+            border: 2px dashed #334155;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .upload-area:hover { border-color: #f8a825; background: rgba(248,168,37,0.05); }
+        .upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .upload-area-icon { font-size: 28px; margin-bottom: 8px; }
+        .upload-area p { font-size: 13px; color: #64748b; margin: 0; }
+        .upload-area strong { color: #f8a825; }
+
+        /* ── TOGGLE ── */
+        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; inset: 0; background: #334155; border-radius: 22px; cursor: pointer; transition: 0.3s; }
+        .toggle-slider:before { content: ''; position: absolute; height: 16px; width: 16px; left: 3px; bottom: 3px; background: #64748b; border-radius: 50%; transition: 0.3s; }
+        input:checked + .toggle-slider { background: #16a34a; }
+        input:checked + .toggle-slider:before { transform: translateX(18px); background: white; }
+
+        /* ── ALERTS ── */
+        .alert { padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 20px; display: none; }
+        .alert-success { background: #14532d; color: #86efac; border: 1px solid #166534; }
+        .alert-error { background: #7f1d1d; color: #fca5a5; border: 1px solid #991b1b; }
+        .alert.show { display: block; }
+
+        /* ── TABLE WRAPPER ── */
+        .table-wrapper { background: #1e293b; border: 1px solid #334155; border-radius: 12px; overflow: hidden; }
+        .table-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #334155; }
+        .table-toolbar h3 { font-size: 15px; font-weight: 700; color: #f1f5f9; margin: 0; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .admin-sidebar { display: none; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body id="admin-body">
+
+    <!-- Top Nav -->
+    <nav class="admin-nav">
+        <div class="admin-nav-brand">
+            <img src="logo.png" alt="Oxygen Group">
+            Admin Panel
+            <span class="admin-badge">Admin</span>
+        </div>
+        <div class="admin-user">
+            <span id="admin-email-display"></span>
+            <button class="btn-nav-logout" id="logout-btn">Sign Out</button>
+        </div>
+    </nav>
+
+    <div class="admin-layout">
+
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">Overview</div>
+                <button class="sidebar-link active" data-page="dashboard">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </button>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Content</div>
+                <button class="sidebar-link" data-page="materials">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Learning Materials
+                </button>
+                <button class="sidebar-link" data-page="services">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Services
+                </button>
+                <button class="sidebar-link" data-page="gallery">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Images & Media
+                </button>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">People</div>
+                <button class="sidebar-link" data-page="leads">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    CRM Leads
+                </button>
+                <button class="sidebar-link" data-page="admins">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Admin Users
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="admin-main">
+
+            <!-- ALERT -->
+            <div class="alert alert-success" id="alert-success"></div>
+            <div class="alert alert-error" id="alert-error"></div>
+
+            <!-- ── DASHBOARD ── -->
+            <section class="page-section active" id="page-dashboard">
+                <div class="page-header">
+                    <div>
+                        <h1>👋 Welcome, Admin</h1>
+                        <p>Manage your site content, uploads, and leads from here.</p>
+                    </div>
+                    <a href="index.html" target="_blank" class="btn btn-secondary">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        View Live Site
+                    </a>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-materials">—</div>
+                        <div class="stat-label">Learning Materials</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-services">—</div>
+                        <div class="stat-label">Services Listed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-leads">—</div>
+                        <div class="stat-label">CRM Leads</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-admins">—</div>
+                        <div class="stat-label">Admin Users</div>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <div class="table-toolbar">
+                        <h3>⚡ Quick Actions</h3>
+                    </div>
+                    <div style="padding:20px; display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:12px;">
+                        <button class="btn btn-primary" onclick="showPage('materials')">➕ Add Learning Material</button>
+                        <button class="btn btn-secondary" onclick="showPage('services')">🛠 Manage Services</button>
+                        <button class="btn btn-secondary" onclick="showPage('gallery')">🖼 Upload Images</button>
+                        <button class="btn btn-secondary" onclick="showPage('leads')">📋 View Leads</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── MATERIALS ── -->
+            <section class="page-section" id="page-materials">
+                <div class="page-header">
+                    <div>
+                        <h1>📚 Learning Materials</h1>
+                        <p>Upload PDFs, videos, links, and resources for the Learning Hub.</p>
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <h2>Add New Material</h2>
+                    <form id="material-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Title *</label>
+                                <input type="text" id="mat-title" class="form-control" placeholder="e.g. DOT Drug Testing Guide" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Module / Category *</label>
+                                <select id="mat-module" class="form-control" required>
+                                    <option value="">— Select Module —</option>
+                                    <option value="Medical Training">Medical Training</option>
+                                    <option value="Caregiver Training">Caregiver Training</option>
+                                    <option value="Phlebotomy School">Phlebotomy School</option>
+                                    <option value="Diagnostic School">Diagnostic School</option>
+                                    <option value="Start Your Agency">Start Your Agency</option>
+                                    <option value="Resources & Forms">Resources & Forms</option>
+                                    <option value="General">General</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="mat-desc" class="form-control" placeholder="Brief description of the material..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select id="mat-type" class="form-control" onchange="toggleUploadType()">
+                                    <option value="link">🔗 External Link / URL</option>
+                                    <option value="file">📄 Upload File (PDF, DOC)</option>
+                                    <option value="video">🎥 Video Link (YouTube etc)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sort Order (lower = first)</label>
+                                <input type="number" id="mat-sort" class="form-control" value="0" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group" id="url-input-group">
+                            <label>URL / Link</label>
+                            <input type="url" id="mat-url" class="form-control" placeholder="https://...">
+                        </div>
+                        <div class="form-group" id="file-input-group" style="display:none;">
+                            <label>Upload File</label>
+                            <div class="upload-area" id="file-drop-area">
+                                <input type="file" id="mat-file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xlsx,.csv">
+                                <div class="upload-area-icon">📄</div>
+                                <p><strong>Click to upload</strong> or drag & drop<br>PDF, Word, PowerPoint, Excel</p>
+                            </div>
+                            <div id="file-name-display" style="margin-top:8px; font-size:13px; color:#64748b;"></div>
+                        </div>
+                        <div style="display:flex; gap:12px; align-items:center;">
+                            <button type="submit" class="btn btn-primary" id="mat-submit-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Add Material
+                            </button>
+                            <label style="display:flex; align-items:center; gap:8px; color:#94a3b8; font-size:13px; cursor:pointer;">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="mat-published" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                Publish immediately
+                            </label>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-wrapper">
+                    <div class="table-toolbar">
+                        <h3>All Materials</h3>
+                        <input type="text" class="form-control" style="width:200px; margin:0;" placeholder="Search..." id="mat-search" oninput="filterMaterials()">
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Module</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materials-tbody">
+                            <tr><td colspan="5" style="text-align:center; color:#475569; padding:40px;">Loading materials...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ── SERVICES ── -->
+            <section class="page-section" id="page-services">
+                <div class="page-header">
+                    <div>
+                        <h1>🛠 Services</h1>
+                        <p>Manage the service cards that appear on your public pages.</p>
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <h2>Add New Service</h2>
+                    <form id="service-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Service Title *</label>
+                                <input type="text" id="svc-title" class="form-control" placeholder="e.g. DOT Drug Testing" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Icon (emoji)</label>
+                                <input type="text" id="svc-icon" class="form-control" placeholder="🔬" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="svc-desc" class="form-control" placeholder="Brief description of the service..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Price / Starting From</label>
+                                <input type="text" id="svc-price" class="form-control" placeholder="e.g. From $45">
+                            </div>
+                            <div class="form-group">
+                                <label>Appears On Page</label>
+                                <select id="svc-page" class="form-control">
+                                    <option value="diagnostic">Diagnostic / Lab</option>
+                                    <option value="homecare">Home Care</option>
+                                    <option value="services">Services Page</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Link URL (optional)</label>
+                                <input type="url" id="svc-link" class="form-control" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label>Sort Order</label>
+                                <input type="number" id="svc-sort" class="form-control" value="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="svc-submit-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Add Service
+                        </button>
+                    </form>
+                </div>
+
+                <div class="table-wrapper">
+                    <div class="table-toolbar"><h3>All Services</h3></div>
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Icon</th><th>Title</th><th>Price</th><th>Page</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="services-tbody">
+                            <tr><td colspan="6" style="text-align:center; color:#475569; padding:40px;">Loading services...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ── GALLERY ── -->
+            <section class="page-section" id="page-gallery">
+                <div class="page-header">
+                    <div>
+                        <h1>🖼 Images & Media</h1>
+                        <p>Upload images for use across the site. Copy the URL after uploading.</p>
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <h2>Upload Image or Media</h2>
+                    <div class="form-group">
+                        <label>Select Image or File</label>
+                        <div class="upload-area">
+                            <input type="file" id="gallery-file" accept="image/*,video/*,.gif" onchange="previewImage(this)">
+                            <div class="upload-area-icon">🖼</div>
+                            <p><strong>Click to upload</strong> or drag & drop<br>PNG, JPG, GIF, WebP, SVG</p>
+                        </div>
+                    </div>
+                    <div id="image-preview" style="margin-bottom:16px; display:none;">
+                        <img id="preview-img" style="max-width:100%; max-height:240px; border-radius:8px; border:1px solid #334155;">
+                    </div>
+                    <button class="btn btn-primary" id="gallery-upload-btn" onclick="uploadGalleryFile()">
+                        📤 Upload to Site
+                    </button>
+                    <div id="gallery-url-display" style="margin-top:16px; display:none;">
+                        <label class="form-group" style="display:block;">
+                            <label style="display:block; font-size:12px; font-weight:600; color:#94a3b8; margin-bottom:6px; text-transform:uppercase;">✅ Uploaded! Public URL:</label>
+                            <div style="display:flex; gap:8px;">
+                                <input type="text" id="gallery-url-input" class="form-control" readonly>
+                                <button class="btn btn-secondary" onclick="copyUrl()">Copy</button>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <div class="table-toolbar"><h3>Uploaded Files</h3></div>
+                    <div id="gallery-grid" style="padding:20px; display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:12px;">
+                        <div style="color:#475569; font-size:13px; grid-column: 1/-1; text-align:center; padding:40px;">Loading files...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── LEADS ── -->
+            <section class="page-section" id="page-leads">
+                <div class="page-header">
+                    <div>
+                        <h1>📋 CRM Leads</h1>
+                        <p>People who submitted a form, booked an appointment, or requested info.</p>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <div class="table-toolbar">
+                        <h3>All Leads</h3>
+                        <button class="btn btn-secondary btn-sm" onclick="exportLeads()">⬇ Export CSV</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Service</th><th>Message</th><th>Date</th></tr>
+                        </thead>
+                        <tbody id="leads-tbody">
+                            <tr><td colspan="6" style="text-align:center; color:#475569; padding:40px;">Loading leads...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ── ADMINS ── -->
+            <section class="page-section" id="page-admins">
+                <div class="page-header">
+                    <div>
+                        <h1>🔐 Admin Users</h1>
+                        <p>Manage who has access to this admin panel.</p>
+                    </div>
+                </div>
+                <div class="form-card">
+                    <h2>Add New Admin</h2>
+                    <form id="admin-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" id="new-admin-name" class="form-control" placeholder="e.g. John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" id="new-admin-email" class="form-control" placeholder="admin@oxygendx.com" required>
+                            </div>
+                        </div>
+                        <p style="font-size:13px; color:#64748b; margin:0 0 16px;">⚠️ Make sure the person first creates an account at <a href="login.html" target="_blank" style="color:#f8a825;">login.html</a>, then add their email here to grant admin access.</p>
+                        <button type="submit" class="btn btn-primary">Add Admin User</button>
+                    </form>
+                </div>
+                <div class="table-wrapper">
+                    <div class="table-toolbar"><h3>Current Admins</h3></div>
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Name</th><th>Email</th><th>Added</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="admins-tbody">
+                            <tr><td colspan="4" style="text-align:center; color:#475569; padding:40px;">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script type="module">
+        import { supabase } from './supabase.js';
+
+        // ── AUTH CHECK ──
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { window.location.replace('login.html'); }
+
+        // ── ADMIN CHECK ──
+        const userEmail = session.user.email;
+        const { data: adminRecord } = await supabase.from('admins').select('email').eq('email', userEmail).single();
+        if (!adminRecord) {
+            alert('Access denied. Your account does not have admin privileges.');
+            await supabase.auth.signOut();
+            window.location.replace('login.html');
+        }
+
+        document.getElementById('admin-email-display').textContent = userEmail;
+        document.getElementById('admin-body').classList.add('ready');
+
+        // ── LOGOUT ──
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            window.location.replace('login.html');
+        });
+
+        // ── SIDEBAR NAVIGATION ──
+        window.showPage = (pageId) => {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+            const loaders = { materials: loadMaterials, services: loadServices, leads: loadLeads, admins: loadAdmins, gallery: loadGallery, dashboard: loadStats };
+            if (loaders[pageId]) loaders[pageId]();
+        };
+
+        document.querySelectorAll('.sidebar-link').forEach(btn => {
+            btn.addEventListener('click', () => showPage(btn.dataset.page));
+        });
+
+        // ── ALERTS ──
+        window.showAlert = (type, msg) => {
+            const el = document.getElementById('alert-' + type);
+            el.textContent = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 4000);
+        };
+
+        // ── LOAD STATS ──
+        async function loadStats() {
+            const [m, s, l, a] = await Promise.all([
+                supabase.from('materials').select('id', { count: 'exact', head: true }),
+                supabase.from('services').select('id', { count: 'exact', head: true }),
+                supabase.from('crm_leads').select('id', { count: 'exact', head: true }),
+                supabase.from('admins').select('id', { count: 'exact', head: true })
+            ]);
+            document.getElementById('stat-materials').textContent = m.count ?? '—';
+            document.getElementById('stat-services').textContent = s.count ?? '—';
+            document.getElementById('stat-leads').textContent = l.count ?? '—';
+            document.getElementById('stat-admins').textContent = a.count ?? '—';
+        }
+        loadStats();
+
+        // ── MATERIALS ──
+        let allMaterials = [];
+
+        async function loadMaterials() {
+            const { data } = await supabase.from('materials').select('*').order('sort_order').order('created_at', { ascending: false });
+            allMaterials = data || [];
+            renderMaterials(allMaterials);
+        }
+
+        window.filterMaterials = () => {
+            const q = document.getElementById('mat-search').value.toLowerCase();
+            renderMaterials(allMaterials.filter(m => m.title.toLowerCase().includes(q) || m.module.toLowerCase().includes(q)));
+        };
+
+        function renderMaterials(items) {
+            const tbody = document.getElementById('materials-tbody');
+            if (!items.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#475569;padding:40px;">No materials yet. Add one above!</td></tr>'; return; }
+            tbody.innerHTML = items.map(m => `
+                <tr>
+                    <td style="font-weight:600; color:#f1f5f9;">${m.title}</td>
+                    <td><span class="pill pill-blue">${m.module}</span></td>
+                    <td><span class="pill ${m.type === 'file' ? 'pill-gold' : m.type === 'video' ? 'pill-green' : 'pill-gray'}">${m.type}</span></td>
+                    <td>
+                        <label class="toggle-switch" title="Toggle publish">
+                            <input type="checkbox" ${m.is_published ? 'checked' : ''} onchange="toggleMaterial('${m.id}', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </td>
+                    <td>
+                        ${m.url || m.file_path ? `<a href="${m.url || (supabase.storage.from('materials').getPublicUrl(m.file_path).data.publicUrl)}" target="_blank" class="btn-icon" title="View">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>` : ''}
+                        <button class="btn-icon delete" onclick="deleteMaterial('${m.id}', '${m.file_path || ''}')" title="Delete">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        window.toggleMaterial = async (id, val) => {
+            await supabase.from('materials').update({ is_published: val }).eq('id', id);
+        };
+
+        window.deleteMaterial = async (id, filePath) => {
+            if (!confirm('Delete this material?')) return;
+            if (filePath) await supabase.storage.from('materials').remove([filePath]);
+            await supabase.from('materials').delete().eq('id', id);
+            showAlert('success', 'Material deleted.');
+            loadMaterials();
+        };
+
+        window.toggleUploadType = () => {
+            const type = document.getElementById('mat-type').value;
+            document.getElementById('url-input-group').style.display = type === 'file' ? 'none' : 'block';
+            document.getElementById('file-input-group').style.display = type === 'file' ? 'block' : 'none';
+        };
+
+        document.getElementById('mat-file').addEventListener('change', (e) => {
+            const name = e.target.files[0]?.name;
+            document.getElementById('file-name-display').textContent = name ? '📎 ' + name : '';
+        });
+
+        document.getElementById('material-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('mat-submit-btn');
+            btn.textContent = 'Saving...'; btn.disabled = true;
+
+            const type = document.getElementById('mat-type').value;
+            let filePathSaved = null, urlSaved = document.getElementById('mat-url').value || null;
+
+            if (type === 'file') {
+                const file = document.getElementById('mat-file').files[0];
+                if (!file) { showAlert('error', 'Please select a file to upload.'); btn.textContent = 'Add Material'; btn.disabled = false; return; }
+                const path = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
+                const { error: upErr } = await supabase.storage.from('materials').upload(path, file);
+                if (upErr) { showAlert('error', 'Upload failed: ' + upErr.message); btn.textContent = 'Add Material'; btn.disabled = false; return; }
+                filePathSaved = path;
+            }
+
+            const { error } = await supabase.from('materials').insert({
+                title: document.getElementById('mat-title').value,
+                description: document.getElementById('mat-desc').value,
+                module: document.getElementById('mat-module').value,
+                type, url: urlSaved, file_path: filePathSaved,
+                sort_order: parseInt(document.getElementById('mat-sort').value) || 0,
+                is_published: document.getElementById('mat-published').checked,
+                uploaded_by: userEmail
+            });
+
+            btn.textContent = 'Add Material'; btn.disabled = false;
+            if (error) { showAlert('error', error.message); return; }
+            showAlert('success', '✅ Material added successfully!');
+            e.target.reset();
+            loadMaterials();
+        });
+
+        // ── SERVICES ──
+        async function loadServices() {
+            const { data } = await supabase.from('services').select('*').order('sort_order').order('created_at', { ascending: false });
+            const tbody = document.getElementById('services-tbody');
+            if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#475569;padding:40px;">No services yet.</td></tr>'; return; }
+            tbody.innerHTML = data.map(s => `
+                <tr>
+                    <td style="font-size:24px;">${s.icon || '🔬'}</td>
+                    <td style="font-weight:600; color:#f1f5f9;">${s.title}</td>
+                    <td style="color:#f8a825;">${s.price || '—'}</td>
+                    <td><span class="pill pill-blue">${s.page}</span></td>
+                    <td><label class="toggle-switch"><input type="checkbox" ${s.is_published ? 'checked' : ''} onchange="toggleService('${s.id}', this.checked)"><span class="toggle-slider"></span></label></td>
+                    <td><button class="btn-icon delete" onclick="deleteService('${s.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button></td>
+                </tr>
+            `).join('');
+        }
+
+        window.toggleService = async (id, val) => await supabase.from('services').update({ is_published: val }).eq('id', id);
+        window.deleteService = async (id) => {
+            if (!confirm('Delete this service?')) return;
+            await supabase.from('services').delete().eq('id', id);
+            showAlert('success', 'Service deleted.'); loadServices();
+        };
+
+        document.getElementById('service-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('svc-submit-btn');
+            btn.textContent = 'Saving...'; btn.disabled = true;
+            const { error } = await supabase.from('services').insert({
+                title: document.getElementById('svc-title').value,
+                description: document.getElementById('svc-desc').value,
+                icon: document.getElementById('svc-icon').value || '🔬',
+                price: document.getElementById('svc-price').value,
+                page: document.getElementById('svc-page').value,
+                link: document.getElementById('svc-link').value,
+                sort_order: parseInt(document.getElementById('svc-sort').value) || 0,
+            });
+            btn.textContent = 'Add Service'; btn.disabled = false;
+            if (error) { showAlert('error', error.message); return; }
+            showAlert('success', '✅ Service added!'); e.target.reset(); loadServices();
+        });
+
+        // ── GALLERY ──
+        async function loadGallery() {
+            const { data } = await supabase.storage.from('materials').list('', { limit: 100, sortBy: { column: 'created_at', order: 'desc' } });
+            const grid = document.getElementById('gallery-grid');
+            const imgFiles = (data || []).filter(f => f.name.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i));
+            if (!imgFiles.length) { grid.innerHTML = '<div style="color:#475569;font-size:13px;grid-column:1/-1;text-align:center;padding:40px;">No images uploaded yet.</div>'; return; }
+            grid.innerHTML = imgFiles.map(f => {
+                const { data: { publicUrl } } = supabase.storage.from('materials').getPublicUrl(f.name);
+                return `<div style="position:relative; border-radius:8px; overflow:hidden; border:1px solid #334155; aspect-ratio:1;">
+                    <img src="${publicUrl}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    <div style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); padding:6px; display:flex; gap:4px;">
+                        <button class="btn-icon" style="color:white;" onclick="navigator.clipboard.writeText('${publicUrl}'); showAlert('success','URL copied!');" title="Copy URL">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        </button>
+                        <button class="btn-icon delete" onclick="deleteGalleryFile('${f.name}')" title="Delete">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        window.previewImage = (input) => {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => { document.getElementById('preview-img').src = e.target.result; document.getElementById('image-preview').style.display = 'block'; };
+            reader.readAsDataURL(file);
+        };
+
+        window.uploadGalleryFile = async () => {
+            const file = document.getElementById('gallery-file').files[0];
+            if (!file) { showAlert('error', 'Please select a file first.'); return; }
+            const btn = document.getElementById('gallery-upload-btn');
+            btn.textContent = 'Uploading...'; btn.disabled = true;
+            const path = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
+            const { error } = await supabase.storage.from('materials').upload(path, file, { upsert: true });
+            btn.textContent = '📤 Upload to Site'; btn.disabled = false;
+            if (error) { showAlert('error', error.message); return; }
+            const { data: { publicUrl } } = supabase.storage.from('materials').getPublicUrl(path);
+            document.getElementById('gallery-url-input').value = publicUrl;
+            document.getElementById('gallery-url-display').style.display = 'block';
+            showAlert('success', '✅ Image uploaded!');
+            loadGallery();
+        };
+
+        window.copyUrl = () => { navigator.clipboard.writeText(document.getElementById('gallery-url-input').value); showAlert('success', 'URL copied!'); };
+
+        window.deleteGalleryFile = async (name) => {
+            if (!confirm('Delete this file permanently?')) return;
+            await supabase.storage.from('materials').remove([name]);
+            showAlert('success', 'File deleted.'); loadGallery();
+        };
+
+        // ── LEADS ──
+        async function loadLeads() {
+            const { data } = await supabase.from('crm_leads').select('*').order('created_at', { ascending: false });
+            const tbody = document.getElementById('leads-tbody');
+            if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#475569;padding:40px;">No leads yet.</td></tr>'; return; }
+            tbody.innerHTML = data.map(l => `
+                <tr>
+                    <td style="font-weight:600; color:#f1f5f9;">${l.full_name || l.name || '—'}</td>
+                    <td>${l.email || '—'}</td>
+                    <td>${l.phone || '—'}</td>
+                    <td><span class="pill pill-blue">${l.service || l.subject || '—'}</span></td>
+                    <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${l.message || '—'}</td>
+                    <td style="font-size:12px; color:#475569;">${new Date(l.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
+        }
+
+        window.exportLeads = async () => {
+            const { data } = await supabase.from('crm_leads').select('*').order('created_at', { ascending: false });
+            if (!data?.length) { showAlert('error', 'No leads to export.'); return; }
+            const header = Object.keys(data[0]).join(',');
+            const rows = data.map(r => Object.values(r).map(v => `"${String(v || '').replace(/"/g,'""')}"`).join(','));
+            const csv = [header, ...rows].join('\n');
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+            a.download = 'oxygendx-leads.csv'; a.click();
+        };
+
+        // ── ADMINS ──
+        async function loadAdmins() {
+            const { data } = await supabase.from('admins').select('*').order('created_at', { ascending: false });
+            const tbody = document.getElementById('admins-tbody');
+            if (!data?.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#475569;padding:40px;">No admins found.</td></tr>'; return; }
+            tbody.innerHTML = data.map(a => `
+                <tr>
+                    <td style="font-weight:600; color:#f1f5f9;">${a.name || '—'}</td>
+                    <td>${a.email}</td>
+                    <td style="font-size:12px; color:#475569;">${new Date(a.created_at).toLocaleDateString()}</td>
+                    <td>${a.email !== userEmail ? `<button class="btn-icon delete" onclick="removeAdmin('${a.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>` : '<span style="color:#475569;font-size:12px;">You</span>'}</td>
+                </tr>
+            `).join('');
+        }
+
+        window.removeAdmin = async (id) => {
+            if (!confirm('Remove this admin? They will lose access.')) return;
+            await supabase.from('admins').delete().eq('id', id);
+            showAlert('success', 'Admin removed.'); loadAdmins();
+        };
+
+        document.getElementById('admin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const { error } = await supabase.from('admins').insert({
+                name: document.getElementById('new-admin-name').value,
+                email: document.getElementById('new-admin-email').value
+            });
+            if (error) { showAlert('error', error.message.includes('unique') ? 'That email is already an admin.' : error.message); return; }
+            showAlert('success', '✅ Admin user added!'); e.target.reset(); loadAdmins();
+        });
+    </script>
+</body>
+</html>

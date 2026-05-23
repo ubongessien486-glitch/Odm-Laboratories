@@ -301,8 +301,38 @@ async function submitForm(formId,table,payload,okId,errId,btnId){
   document.getElementById(okId).style.display='none';
   document.getElementById(errId).style.display='none';
   try{
+    // 1. Save to Supabase
     const{error}=await supabase.from(table).insert([payload]);
     if(error)throw error;
+
+    // 2. Submit to Web3Forms for instant email notification
+    const formData = new FormData();
+    formData.append('access_key', '6ca01595-fa75-4d60-a4b5-2f8a9aee2c3d');
+    
+    if (table === 'patient_intake') {
+      formData.append('subject', 'New Patient Intake Request - Oxygen Group');
+      formData.append('Patient Name', payload.patient_name);
+      formData.append('Phone', payload.phone);
+      formData.append('Email', payload.email);
+      formData.append('Location', payload.location);
+      formData.append('Urgency', payload.urgency);
+      formData.append('Care Needs', payload.care_needs);
+    } else if (table === 'referral_sources') {
+      formData.append('subject', 'New Hospital/Facility Referral - Oxygen Group');
+      formData.append('Referrer Name', payload.name);
+      formData.append('Facility', payload.facility);
+      formData.append('Role', payload.role);
+      formData.append('Phone', payload.phone);
+      formData.append('Email', payload.email);
+      formData.append('Pain Points', payload.pain_points);
+      formData.append('Fast Response Requested', payload.fast_response_requested ? 'Yes' : 'No');
+    }
+
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+
     document.getElementById(okId).style.display='block';
     document.getElementById(formId).reset();
   }catch(e){

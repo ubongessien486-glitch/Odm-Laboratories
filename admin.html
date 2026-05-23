@@ -630,7 +630,7 @@
 
         // ── AUTH CHECK ──
         const { data: { session } } = await supabase.auth.getSession();
-        if (!session) { window.location.replace('login.html'); }
+        if (!session) { window.location.replace('admin-login.html'); }
 
         // ── ADMIN CHECK ──
         const userEmail = session.user.email;
@@ -638,7 +638,7 @@
         if (!adminRecord) {
             alert('Access denied. Your account does not have admin privileges.');
             await supabase.auth.signOut();
-            window.location.replace('login.html');
+            window.location.replace('admin-login.html');
         }
 
         document.getElementById('admin-email-display').textContent = userEmail;
@@ -647,7 +647,7 @@
         // ── LOGOUT ──
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await supabase.auth.signOut();
-            window.location.replace('login.html');
+            window.location.replace('admin-login.html');
         });
 
         // ── SIDEBAR NAVIGATION ──

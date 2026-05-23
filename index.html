@@ -117,6 +117,24 @@
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(0.8); }
         }
+        .brand-bar__admin-btn {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--blue);
+            border: 2px solid var(--blue);
+            padding: 7px 16px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .brand-bar__admin-btn:hover {
+            background: var(--blue);
+            color: var(--white) !important;
+        }
 
         /* ── HERO ── */
         .hero {
@@ -552,8 +570,9 @@
         }
         @media (max-width: 640px) {
             .gw-split { grid-template-columns: 1fr; }
-            .gw-card--learn { grid-column: span 1; }
+            .gw-card--learn { grid-column: span 2; }
             .brand-bar { padding: 16px 20px; }
+            .brand-bar__badge { display: none; }
             .hero { padding: 56px 20px 40px; }
             .gw-card { padding: 40px 24px 48px; }
             .gw-card:not(:last-child)::after { display: none; }
@@ -585,6 +604,11 @@
                     <strong>Oxygen Group</strong>
                     <span>Medical Services</span>
                 </div>
+            </div>
+            <div class="brand-bar__actions" style="display: flex; align-items: center; gap: 12px;">
+                <div class="brand-bar__badge">Active Response</div>
+                <a href="admin-login.html" class="brand-bar__admin-btn">Admin Portal</a>
+            </div>
         </header>
 
 

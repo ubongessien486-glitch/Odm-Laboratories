@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Oxygen Group</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="styles.css?v=3000">
+    <style>
+        body { background: #0f172a; }
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+        }
+        .auth-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            padding: 48px 40px;
+            position: relative;
+        }
+        .auth-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .auth-logo img {
+            height: 48px;
+            background: #ffffff;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+        .auth-card h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #f1f5f9;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .auth-card p {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #f1f5f9;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #f8a825;
+            box-shadow: 0 0 0 3px rgba(248,168,37,0.15);
+        }
+        .btn-auth {
+            width: 100%;
+            background: #f8a825;
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .btn-auth:hover {
+            background: #fbbf24;
+            transform: translateY(-1px);
+        }
+        .btn-auth:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #auth-error {
+            display: none;
+            color: #fca5a5;
+            background: #7f1d1d;
+            border: 1px solid #991b1b;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #auth-success {
+            display: none;
+            color: #86efac;
+            background: #14532d;
+            border: 1px solid #166534;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .back-home {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .back-home:hover { color: #f1f5f9; }
+    </style>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <a href="index.html" class="back-home">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Portal Home
+        </a>
+        <div class="auth-card">
+            <div class="auth-logo">
+                <img src="logo.png" alt="Oxygen Group">
+            </div>
+            <h1>Admin Control Portal</h1>
+            <p>Access your backend dashboards and CRM pipelines.</p>
+            
+            <div id="auth-error"></div>
+            <div id="auth-success"></div>
+
+            <form id="auth-form">
+                <div class="form-group">
+                    <label>Admin Email</label>
+                    <input type="email" id="email" class="form-control" required placeholder="admin@oxygendx.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" class="form-control" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-auth" id="submit-btn">Sign In to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabase } from './supabase.js';
+
+        const form = document.getElementById('auth-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorDiv = document.getElementById('auth-error');
+        const successDiv = document.getElementById('auth-success');
+
+        // Check if admin is already logged in
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            const { data: adminRecord } = await supabase
+                .from('admins')
+                .select('email')
+                .eq('email', session.user.email)
+                .single();
+            
+            if (adminRecord) {
+                window.location.replace('admin.html');
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Authenticating...';
+
+            try {
+                // 1. Log in with email/password
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+
+                // 2. Query admins table to check if they are registered as admin
+                const { data: adminRecord, error: adminError } = await supabase
+                    .from('admins')
+                    .select('email')
+                    .eq('email', email)
+                    .single();
+                
+                if (adminError || !adminRecord) {
+                    // Sign out immediately if not authorized admin
+                    await supabase.auth.signOut();
+                    throw new Error('Access denied. This account does not have administrator privileges.');
+                }
+
+                // Redirect to admin panel
+                window.location.replace('admin.html');
+            } catch (err) {
+                errorDiv.textContent = err.message;
+                errorDiv.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In to Dashboard';
+            }
+        });
+    </script>
+</body>
+</html>

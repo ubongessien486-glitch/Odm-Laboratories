@@ -202,16 +202,18 @@
             const phone = document.getElementById('cf-phone').value;
             const message = document.getElementById('cf-message').value;
 
+            const fullName = `${firstName} ${lastName}`.trim();
+
             const { error } = await supabase
-                .from('form_submissions')
+                .from('crm_leads')
                 .insert([
                     { 
-                        form_type: 'contact', 
-                        first_name: firstName, 
-                        last_name: lastName, 
+                        name: fullName,
                         email: email, 
                         phone: phone, 
-                        message: message 
+                        subject: 'Contact Form Message',
+                        message: message,
+                        status: 'New'
                     }
                 ]);
 

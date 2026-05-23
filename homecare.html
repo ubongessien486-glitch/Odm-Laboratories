@@ -6,7 +6,6 @@
 <title>Oxygen Home Care Agency | Compassionate In-Home Care</title>
 <meta name="description" content="HCSSA licensed home care agency providing personal care, post-hospital support, dementia care, and fast-response discharge partnerships.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--navy:#003A70;--navy-dark:#001f3f;--orange:#E86C2A;--orange-light:#FFF3EB;--orange-dark:#c95a1e;--white:#fff;--g50:#F8FAFC;--g100:#F1F5F9;--g200:#E2E8F0;--g400:#94A3B8;--g600:#475569;--g800:#1E293B;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,0.08)}
@@ -293,10 +292,8 @@ section{padding:72px 0}
 </div>
 </footer>
 
-<script>
-const SB_URL='YOUR_SUPABASE_URL',SB_KEY='YOUR_SUPABASE_ANON_KEY';
-let sb=null;
-if(SB_URL!=='YOUR_SUPABASE_URL') sb=window.supabase.createClient(SB_URL,SB_KEY);
+<script type="module">
+import { supabase } from './supabase.js';
 
 async function submitForm(formId,table,payload,okId,errId,btnId){
   const btn=document.getElementById(btnId);
@@ -304,8 +301,8 @@ async function submitForm(formId,table,payload,okId,errId,btnId){
   document.getElementById(okId).style.display='none';
   document.getElementById(errId).style.display='none';
   try{
-    if(sb){const{error}=await sb.from(table).insert([payload]);if(error)throw error;}
-    else await new Promise(r=>setTimeout(r,800));
+    const{error}=await supabase.from(table).insert([payload]);
+    if(error)throw error;
     document.getElementById(okId).style.display='block';
     document.getElementById(formId).reset();
   }catch(e){

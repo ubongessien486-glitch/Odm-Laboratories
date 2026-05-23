@@ -117,14 +117,28 @@
     </div>
 
     <div class="container">
-        <div class="modules-grid">
+        <!-- Module Detail View (Hidden by default) -->
+        <div id="module-detail-view" style="display: none; padding-bottom: 80px; position: relative; z-index: 10;">
+            <button id="back-to-modules-btn" style="background: none; border: none; color: var(--blue); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 24px; transition: color 0.2s;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                Back to Training Modules
+            </button>
+            <h2 id="detail-module-title" style="font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 8px;">Module Resources</h2>
+            <p id="detail-module-desc" style="color: var(--gray-600); font-size: 15px; margin-bottom: 32px; max-width: 600px;">Access your guides, templates, and courses.</p>
+            
+            <div id="materials-list" style="display: flex; flex-direction: column; gap: 16px;">
+                <!-- Materials items will be rendered dynamically -->
+            </div>
+        </div>
+
+        <div class="modules-grid" id="modules-grid-view">
             <div class="module-card">
                 <div class="mod-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 </div>
                 <h3>Medical Training</h3>
                 <p>Advanced clinical protocols, safety procedures, and medical updates.</p>
-                <a href="#" class="mod-link">Access Course &rarr;</a>
+                <a href="#" class="mod-link" data-module="Medical Training" data-desc="Advanced clinical protocols, safety procedures, and medical updates.">Access Course &rarr;</a>
             </div>
 
             <div class="module-card">
@@ -133,7 +147,7 @@
                 </div>
                 <h3>Caregiver Training</h3>
                 <p>Companion care, dementia care best practices, and emergency response.</p>
-                <a href="#" class="mod-link">Access Course &rarr;</a>
+                <a href="#" class="mod-link" data-module="Caregiver Training" data-desc="Companion care, dementia care best practices, and emergency response.">Access Course &rarr;</a>
             </div>
 
             <div class="module-card">
@@ -142,7 +156,7 @@
                 </div>
                 <h3>Phlebotomy School</h3>
                 <p>Blood draw techniques, patient interaction, and safety standards.</p>
-                <a href="#" class="mod-link">Access Course &rarr;</a>
+                <a href="#" class="mod-link" data-module="Phlebotomy School" data-desc="Blood draw techniques, patient interaction, and safety standards.">Access Course &rarr;</a>
             </div>
 
             <div class="module-card">
@@ -151,7 +165,7 @@
                 </div>
                 <h3>Diagnostic School</h3>
                 <p>DOT drug/alcohol testing, DNA collection training, and certification prep.</p>
-                <a href="#" class="mod-link">Access Course &rarr;</a>
+                <a href="#" class="mod-link" data-module="Diagnostic School" data-desc="DOT drug/alcohol testing, DNA collection training, and certification prep.">Access Course &rarr;</a>
             </div>
 
             <div class="module-card">
@@ -160,7 +174,7 @@
                 </div>
                 <h3>Start Your Agency</h3>
                 <p>Business blueprints, licensing guidelines, and startup checklists.</p>
-                <a href="#" class="mod-link">Access Blueprint &rarr;</a>
+                <a href="#" class="mod-link" data-module="Start Your Agency" data-desc="Business blueprints, licensing guidelines, and startup checklists.">Access Blueprint &rarr;</a>
             </div>
 
             <div class="module-card">
@@ -169,7 +183,7 @@
                 </div>
                 <h3>Resources & Forms</h3>
                 <p>Downloadable consent forms, intake sheets, and compliance documents.</p>
-                <a href="#" class="mod-link">View Resources &rarr;</a>
+                <a href="#" class="mod-link" data-module="Resources & Forms" data-desc="Downloadable consent forms, intake sheets, and compliance documents.">View Resources &rarr;</a>
             </div>
         </div>
     </div>
@@ -193,6 +207,99 @@
             await supabase.auth.signOut();
             window.location.replace('login.html');
         });
+
+        // Dynamic Loading of Materials
+        const gridView = document.getElementById('modules-grid-view');
+        const detailView = document.getElementById('module-detail-view');
+        const detailTitle = document.getElementById('detail-module-title');
+        const detailDesc = document.getElementById('detail-module-desc');
+        const listDiv = document.getElementById('materials-list');
+
+        document.querySelectorAll('.mod-link').forEach(link => {
+            link.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const moduleName = link.dataset.module;
+                const moduleDesc = link.dataset.desc;
+
+                detailTitle.textContent = moduleName;
+                detailDesc.textContent = moduleDesc;
+                listDiv.innerHTML = '<div style="color: var(--gray-600); text-align: center; padding: 48px;">Loading materials...</div>';
+                
+                gridView.style.display = 'none';
+                detailView.style.display = 'block';
+
+                try {
+                    const { data: materials, error } = await supabase
+                        .from('materials')
+                        .select('*')
+                        .eq('module', moduleName)
+                        .eq('is_published', true)
+                        .order('sort_order', { ascending: true })
+                        .order('created_at', { ascending: false });
+
+                    if (error) throw error;
+                    renderMaterials(materials);
+                } catch (err) {
+                    console.error('Error fetching materials:', err);
+                    listDiv.innerHTML = '<div style="color: #d32f2f; text-align: center; padding: 48px;">Failed to load resources. Please try again.</div>';
+                }
+            });
+        });
+
+        document.getElementById('back-to-modules-btn').addEventListener('click', () => {
+            detailView.style.display = 'none';
+            gridView.style.display = 'grid';
+        });
+
+        function renderMaterials(items) {
+            if (!items.length) {
+                listDiv.innerHTML = `
+                    <div style="background: var(--white); padding: 48px; text-align: center; border-radius: 12px; border: 1px dashed var(--gray-400);">
+                        <div style="font-size: 36px; margin-bottom: 12px;">📭</div>
+                        <h4 style="font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px;">No Materials Published Yet</h4>
+                        <p style="color: var(--gray-600); font-size: 14px;">There are no guides, links, or videos available in this category at the moment. Please check back later.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listDiv.innerHTML = items.map(m => {
+                let iconSvg = '';
+                let buttonText = 'Access Resource';
+                let targetUrl = '';
+
+                if (m.type === 'file') {
+                    iconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+                    buttonText = 'Download File';
+                    targetUrl = m.file_path ? supabase.storage.from('materials').getPublicUrl(m.file_path).data.publicUrl : '#';
+                } else if (m.type === 'video') {
+                    iconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`;
+                    buttonText = 'Watch Video';
+                    targetUrl = m.url || '#';
+                } else {
+                    iconSvg = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+                    buttonText = 'Open Link';
+                    targetUrl = m.url || '#';
+                }
+
+                return `
+                    <div style="background: var(--white); border-radius: 12px; border: 1px solid var(--gray-200); padding: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; box-shadow: var(--shadow-sm); transition: all 0.2s;">
+                        <div style="display: flex; align-items: flex-start; gap: 16px; flex: 1;">
+                            <div style="width: 48px; height: 48px; border-radius: 10px; background: rgba(0, 102, 204, 0.1); color: var(--blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                ${iconSvg}
+                            </div>
+                            <div>
+                                <h4 style="font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 4px;">${m.title}</h4>
+                                <p style="font-size: 13px; color: var(--gray-600); line-height: 1.5; margin: 0;">${m.description || 'No description provided.'}</p>
+                            </div>
+                        </div>
+                        <a href="${targetUrl}" target="_blank" style="padding: 10px 20px; font-size: 13px; border-radius: 8px; text-decoration: none; white-space: nowrap; font-weight: bold; background: var(--blue); color: var(--white); border: none; cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px;">
+                            ${buttonText}
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
     </script>
 </body>
 </html>

@@ -184,10 +184,29 @@
         const errorDiv = document.getElementById('auth-error');
         const successDiv = document.getElementById('auth-success');
 
+        async function handleRedirect(email) {
+            try {
+                const { data: adminRecord } = await supabase
+                    .from('admins')
+                    .select('email')
+                    .eq('email', email)
+                    .single();
+                
+                if (adminRecord) {
+                    window.location.replace('admin.html');
+                } else {
+                    window.location.replace('dashboard.html');
+                }
+            } catch (err) {
+                // If it fails or not single (regular student), go to dashboard
+                window.location.replace('dashboard.html');
+            }
+        }
+
         // Check if user is already logged in
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
-            window.location.href = 'dashboard.html';
+            await handleRedirect(session.user.email);
         }
 
         toggleMode.addEventListener('click', (e) => {
@@ -230,7 +249,7 @@
                     errorDiv.style.display = 'block';
                     submitBtn.textContent = 'Sign In';
                 } else {
-                    window.location.href = 'dashboard.html';
+                    await handleRedirect(email);
                 }
             } else {
                 const { data, error } = await supabase.auth.signUp({ email, password });
@@ -239,12 +258,11 @@
                     errorDiv.style.display = 'block';
                     submitBtn.textContent = 'Sign Up';
                 } else {
-                    successDiv.textContent = 'Registration successful! Please check your email to confirm your account (if email confirmation is required).';
+                    successDiv.textContent = 'Registration successful! If you registered as an admin, you can now sign in.';
                     successDiv.style.display = 'block';
                     form.reset();
-                    // Optional auto login if email confirmation is turned off in Supabase
                     if (data?.session) {
-                        window.location.href = 'dashboard.html';
+                        await handleRedirect(email);
                     }
                     submitBtn.textContent = 'Sign Up';
                 }

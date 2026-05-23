@@ -132,19 +132,19 @@
             const time = document.getElementById('time').value;
             const notes = document.getElementById('notes').value;
 
+            const fullName = `${firstName} ${lastName}`.trim();
+            const compiledMessage = `Preferred Date: ${date}, Preferred Time: ${time}. Notes: ${notes || 'None'}`;
+
             const { error } = await supabase
-                .from('form_submissions')
+                .from('crm_leads')
                 .insert([
                     { 
-                        form_type: 'booking', 
-                        first_name: firstName, 
-                        last_name: lastName, 
+                        name: fullName,
                         email: email, 
                         phone: phone, 
-                        service_requested: serviceType,
-                        date_requested: date,
-                        time_requested: time,
-                        message: notes 
+                        subject: `Booking: ${serviceType}`,
+                        message: compiledMessage,
+                        status: 'New'
                     }
                 ]);
 

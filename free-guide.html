@@ -333,7 +333,9 @@
     <a href="contact.html">Contact</a> · <a href="index.html">Portal Home</a>
 </footer>
 
-<script>
+<script type="module">
+import { supabase } from './supabase.js';
+
 // Show success state if redirected back with ?success=true
 if(window.location.search.includes('success=true')) {
     document.getElementById('leadForm').style.display = 'none';
@@ -341,16 +343,63 @@ if(window.location.search.includes('success=true')) {
     document.getElementById('get-guide').scrollIntoView({behavior:'smooth'});
 }
 
-// HubSpot form embed (replace YOUR_PORTAL_ID and YOUR_FORM_GUID after creating your free HubSpot account)
-// Uncomment and fill in your IDs from HubSpot > Marketing > Forms > Get Embed Code:
-/*
-hbspt.forms.create({
-    region: "na1",
-    portalId: "YOUR_PORTAL_ID",
-    formId: "YOUR_FORM_GUID",
-    target: "#hubspot-form-container"
+document.getElementById('leadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    const firstName = document.getElementById('fname').value;
+    const lastName = document.getElementById('lname').value;
+    const fullName = `${firstName} ${lastName}`.trim();
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const role = document.getElementById('role').value;
+
+    // 1. Insert into Supabase crm_leads
+    const { error: dbError } = await supabase
+        .from('crm_leads')
+        .insert([
+            {
+                name: fullName,
+                email: email,
+                phone: phone,
+                subject: 'Guide Download',
+                message: `Role selected: ${role}`,
+                status: 'New'
+            }
+        ]);
+
+    if (dbError) {
+        console.error('Error saving to database:', dbError);
+    }
+
+    // 2. Submit to Web3Forms via Fetch
+    try {
+        const formData = new FormData();
+        formData.append('access_key', '6ca01595-fa75-4d60-a4b5-2f8a9aee2c3d');
+        formData.append('subject', 'New Lead: Free DOT Compliance Guide Download');
+        formData.append('Name', fullName);
+        formData.append('Email', email);
+        formData.append('Phone', phone);
+        formData.append('Role', role);
+
+        await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+        });
+    } catch (err) {
+        console.error('Error notifying via Web3Forms:', err);
+    }
+
+    // 3. Update UI to show success
+    document.getElementById('leadForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+    document.getElementById('get-guide').scrollIntoView({ behavior: 'smooth' });
+
+    btn.disabled = false;
+    btn.textContent = 'Send Me the Free Guide';
 });
-*/
 </script>
 </body>
 </html>

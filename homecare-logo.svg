@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 686 253" role="img" aria-labelledby="title desc">
+  <title id="title">Oxygen Home Care Agency</title>
+  <desc id="desc">Comfort at Home. Care from the Heart.</desc>
+  <rect width="686" height="253" fill="#4d92ab"/>
+  <g fill="none" stroke="#f8fbfc" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M51 168h36v62H51z"/>
+    <path d="M87 185c34 0 45-21 77-4 14 8 18 21 8 30"/>
+    <path d="M87 221h83c24 0 47-8 68-25l32-25c10-8 24-7 31 3 7 10 4 24-7 31l-54 37c-18 12-39 18-61 18H87"/>
+    <path d="M140 68c-20-34-71-18-71 24 0 39 71 84 71 84s71-45 71-84c0-42-51-58-71-24z"/>
+    <path d="M140 91v44"/>
+    <path d="M118 113h44"/>
+  </g>
+  <line x1="238" y1="38" x2="238" y2="214" stroke="#f8fbfc" stroke-width="7"/>
+  <g fill="#f8fbfc">
+    <text x="289" y="102" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700" letter-spacing="2">OXYGEN HOME</text>
+    <text x="289" y="148" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700" letter-spacing="2">CARE AGENCY</text>
+    <text x="289" y="194" font-family="Georgia, 'Times New Roman', serif" font-size="27" font-weight="700">Comfort at Home. Care</text>
+    <text x="289" y="226" font-family="Georgia, 'Times New Roman', serif" font-size="27" font-weight="700">from the Heart.</text>
+  </g>
+</svg>

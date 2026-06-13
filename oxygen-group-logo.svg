@@ -1,0 +1,22 @@
+<svg width="200" height="64" viewBox="0 0 200 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Oxygen Group</title>
+  <desc id="desc">Oxygen Group parent brand logo</desc>
+  <defs>
+    <linearGradient id="lab" x1="9" y1="18" x2="41" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#173966"/>
+      <stop offset="1" stop-color="#285B8F"/>
+    </linearGradient>
+    <linearGradient id="care" x1="18" y1="10" x2="51" y2="42" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4D92AB"/>
+      <stop offset="1" stop-color="#7BAFBB"/>
+    </linearGradient>
+    <linearGradient id="learn" x1="19" y1="44" x2="50" y2="16" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6F987D"/>
+      <stop offset="1" stop-color="#2F7A43"/>
+    </linearGradient>
+  </defs>
+  <g fill="#173966">
+    <text x="0" y="31" font-family="Plus Jakarta Sans, Inter, Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="-.4">Oxygen Group</text>
+    <text x="1" y="49" font-family="Plus Jakarta Sans, Inter, Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="2.2" fill="#526176">HEALTH • CARE • EDUCATION</text>
+  </g>
+</svg>

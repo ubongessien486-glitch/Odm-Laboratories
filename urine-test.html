@@ -198,10 +198,15 @@
         .price-notes ul { margin-bottom: 0; }
         
         @media (max-width: 640px) {
-            .pricing-table th, .pricing-table td { padding: 12px 16px; }
-            .pricing-table td:first-child { max-width: 150px; white-space: normal; line-height: 1.4; }
-            .price-amount { font-size: 16px; min-width: auto; }
-            .pay-btn { padding: 8px 12px; margin-left: 8px; font-size: 12px; }
+            .pricing-table-wrapper { overflow: visible; background: transparent; border: none; box-shadow: none; margin-bottom: 32px; }
+            .pricing-table thead { display: none; }
+            .pricing-table, .pricing-table tbody, .pricing-table tr, .pricing-table td { display: block; width: 100%; }
+            .pricing-table tr { margin-bottom: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); box-shadow: var(--shadow-soft); }
+            .pricing-table td { text-align: left !important; border-bottom: none; padding: 16px; }
+            .pricing-table td:first-child { max-width: 100%; font-weight: 700; border-bottom: 1px solid #f0f0f0; }
+            .pricing-table td:last-child { display: flex; justify-content: space-between; align-items: center; }
+            .price-amount { font-size: 18px; }
+            .pay-btn { padding: 10px 18px; margin: 0; font-size: 13px; width: auto; }
             .pkg-card { padding: 24px 20px; }
         }
     </style>

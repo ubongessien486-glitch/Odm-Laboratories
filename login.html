@@ -1,29 +1,72 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Login | Oxygen Learning Hub</title>
-    <meta name="description" content="Login to access premium training and resources.">
-    <link rel="stylesheet" href="styles.css?v=3000">
+    <title>Admin Login | Oxygen Group</title>
+    <meta name="description" content="Authorized admin login for Oxygen Group.">
+    <link rel="stylesheet" href="styles.css?v=3104">
     <style>
-        body { background: var(--gray-50); }
+        body { 
+            background: #0f172a;
+            margin: 0;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         .auth-wrapper {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 40px 24px;
-            background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #173966, #285b8f);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(77,146,171,0.15) 0%, transparent 70%);
+            top: -200px;
+            left: -100px;
+            border-radius: 50%;
+        }
+        .auth-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,196,57,0.1) 0%, transparent 70%);
+            bottom: -150px;
+            right: -100px;
+            border-radius: 50%;
         }
         .auth-card {
-            background: var(--white);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             padding: 48px 40px;
             position: relative;
+            z-index: 10;
+            transform: translateY(0);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .auth-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 32px 70px rgba(0, 0, 0, 0.25);
         }
         .auth-logo {
             display: flex;
@@ -32,6 +75,9 @@
         }
         .auth-logo img {
             height: 48px;
+            width: auto;
+            max-width: 190px;
+            object-fit: contain;
             background: var(--navy);
             padding: 8px 12px;
             border-radius: 8px;
@@ -59,35 +105,42 @@
         }
         .form-control {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 1px solid rgba(23, 57, 102, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
             font-family: inherit;
             font-size: 14px;
-            color: var(--gray-800);
-            transition: all 0.2s;
+            color: #12243f;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02) inset;
         }
         .form-control:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(249,168,37,0.15);
+            border-color: #f9a825;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(249,168,37,0.15), 0 2px 8px rgba(0,0,0,0.02) inset;
+            transform: translateY(-1px);
         }
         .btn-auth {
             width: 100%;
-            background: var(--gold);
-            color: var(--navy-dark);
-            font-weight: 700;
-            font-size: 15px;
-            padding: 14px;
+            background: linear-gradient(135deg, #f9a825, #fbc02d);
+            color: #173966;
+            font-weight: 800;
+            font-size: 16px;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 14px;
+            box-shadow: 0 8px 20px rgba(249,168,37,0.25);
+            letter-spacing: 0.5px;
         }
         .btn-auth:hover {
-            background: #ffd54f;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #fbc02d, #ffeb3b);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(249,168,37,0.35);
         }
         .auth-footer {
             margin-top: 24px;
@@ -136,6 +189,13 @@
         }
         .back-home:hover { color: var(--white); }
     </style>
+
+    <meta property="og:title" content="Admin Login | Oxygen Group">
+    <meta property="og:description" content="Authorized admin login for Oxygen Group.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oxygendx.com/login.html">
+    <meta property="og:image" content="https://oxygendx.com/oxygen-group-logo.svg">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <div class="auth-wrapper">
@@ -145,10 +205,10 @@
         </a>
         <div class="auth-card">
             <div class="auth-logo">
-                <img src="logo.png" alt="Oxygen Group">
+                <img loading="eager" decoding="async" alt="Oxygen Group" src="logo-cropped.png">
             </div>
-            <h1 id="auth-title">Member Login</h1>
-            <p id="auth-subtitle">Access your premium training and resources.</p>
+            <h1 id="auth-title">Admin Login</h1>
+            <p id="auth-subtitle">Authorized Oxygen Group staff only.</p>
             
             <div id="auth-error"></div>
             <div id="auth-success"></div>
@@ -166,11 +226,7 @@
             </form>
 
             <div class="auth-footer" id="toggle-container">
-                Don't have an account? <a href="#" id="toggle-mode">Sign up</a>
-            </div>
-
-            <div class="auth-footer" style="margin-top: 20px; border-top: 1px solid var(--gray-200); padding-top: 16px; font-size: 13px; color: var(--gray-600);">
-                Are you an Administrator? <a href="admin-login.html" style="color: var(--gold); font-weight: 700;">Admin Portal</a>
+                Access is managed by the site administrator.
             </div>
         </div>
     </div>
@@ -178,101 +234,46 @@
     <script type="module">
         import { supabase } from './supabase.js';
 
-        let isLogin = true;
         const form = document.getElementById('auth-form');
-        const title = document.getElementById('auth-title');
-        const subtitle = document.getElementById('auth-subtitle');
         const submitBtn = document.getElementById('submit-btn');
-        const toggleMode = document.getElementById('toggle-mode');
-        const toggleContainer = document.getElementById('toggle-container');
         const errorDiv = document.getElementById('auth-error');
         const successDiv = document.getElementById('auth-success');
-
-        async function handleRedirect(email) {
-            try {
-                const { data: adminRecord } = await supabase
-                    .from('admins')
-                    .select('email')
-                    .eq('email', email)
-                    .single();
-                
-                if (adminRecord) {
-                    window.location.replace('admin.html');
-                } else {
-                    window.location.replace('dashboard.html');
-                }
-            } catch (err) {
-                // If it fails or not single (regular student), go to dashboard
-                window.location.replace('dashboard.html');
-            }
-        }
+        const requestedNext = new URLSearchParams(window.location.search).get('next');
+        const nextPage = ['admin.html', 'dashboard.html'].includes(requestedNext) ? requestedNext : null;
 
         // Check if user is already logged in
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
-            await handleRedirect(session.user.email);
+            const { data: adminRecord } = await supabase.from('admins').select('email').eq('email', session.user.email).maybeSingle();
+            window.location.href = nextPage || (adminRecord ? 'admin.html' : 'dashboard.html');
         }
-
-        toggleMode.addEventListener('click', (e) => {
-            e.preventDefault();
-            isLogin = !isLogin;
-            errorDiv.style.display = 'none';
-            successDiv.style.display = 'none';
-            
-            if (isLogin) {
-                title.textContent = 'Member Login';
-                subtitle.textContent = 'Access your premium training and resources.';
-                submitBtn.textContent = 'Sign In';
-                toggleContainer.innerHTML = `Don't have an account? <a href="#" id="toggle-mode">Sign up</a>`;
-            } else {
-                title.textContent = 'Create Account';
-                subtitle.textContent = 'Join the Oxygen Learning Hub.';
-                submitBtn.textContent = 'Sign Up';
-                toggleContainer.innerHTML = `Already have an account? <a href="#" id="toggle-mode">Sign in</a>`;
-            }
-            
-            // Re-attach listener to new element
-            document.getElementById('toggle-mode').addEventListener('click', arguments.callee);
-        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
             
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value;
             
             submitBtn.disabled = true;
             submitBtn.textContent = 'Please wait...';
 
-            if (isLogin) {
-                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                if (error) {
-                    errorDiv.textContent = error.message;
-                    errorDiv.style.display = 'block';
-                    submitBtn.textContent = 'Sign In';
-                } else {
-                    await handleRedirect(email);
-                }
-            } else {
-                const { data, error } = await supabase.auth.signUp({ email, password });
-                if (error) {
-                    errorDiv.textContent = error.message;
-                    errorDiv.style.display = 'block';
-                    submitBtn.textContent = 'Sign Up';
-                } else {
-                    successDiv.textContent = 'Registration successful! If you registered as an admin, you can now sign in.';
-                    successDiv.style.display = 'block';
-                    form.reset();
-                    if (data?.session) {
-                        await handleRedirect(email);
-                    }
-                    submitBtn.textContent = 'Sign Up';
-                }
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+                errorDiv.textContent = 'Invalid email or password.';
+                errorDiv.style.display = 'block';
+                submitBtn.textContent = 'Sign In';
+                submitBtn.disabled = false;
+                return;
             }
+
+            const signedInEmail = data.user.email;
+            const { data: adminRecord } = await supabase.from('admins').select('email').eq('email', signedInEmail).maybeSingle();
+            window.location.href = nextPage || (adminRecord ? 'admin.html' : 'dashboard.html');
             submitBtn.disabled = false;
         });
     </script>
 </body>
 </html>
+

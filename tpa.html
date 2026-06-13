@@ -1,11 +1,139 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TPA / Consortium | Oxygen Medical Diagnostic Lab</title>
     <meta name="description" content="Third Party Administrator (TPA) and Consortium services for DOT/FMCSA compliance.">
-    <link rel="stylesheet" href="styles.css?v=3000">
+    <link rel="stylesheet" href="styles.css?v=3104">
+    <script src="site-motion.js?v=5" defer></script>
+    <style>
+        .tpa-lead {
+            background: linear-gradient(135deg, rgba(0,58,112,0.06), rgba(0,163,181,0.08));
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 28px 0;
+        }
+        .tpa-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin: 28px 0;
+        }
+        .tpa-card,
+        .price-card {
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--white);
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+        }
+        .tpa-card h3,
+        .price-card h3 {
+            color: var(--navy);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .tpa-card p,
+        .price-card p {
+            color: var(--gray-600);
+            font-size: 14px;
+            line-height: 1.65;
+            margin: 0;
+        }
+        .tpa-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px 20px;
+            margin: 18px 0 30px;
+        }
+        .tpa-list li {
+            border-bottom: 1px solid var(--gray-200);
+            padding: 10px 0;
+            color: var(--gray-700);
+        }
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin: 22px 0;
+        }
+        .price-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            min-height: 172px;
+        }
+        .price-card:focus-visible {
+            outline: 3px solid rgba(249,168,37,0.55);
+            outline-offset: 3px;
+        }
+        .price-card .price {
+            color: var(--red);
+            font-size: 24px;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .payment-action {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            margin-top: auto;
+            padding: 9px 14px;
+            border-radius: 8px;
+            background: var(--navy);
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+        .price-card:hover .payment-action,
+        .price-card:focus-visible .payment-action {
+            background: var(--red);
+        }
+        .clearinghouse-banner {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            background: #172b5f;
+            border: 1px solid var(--gray-200);
+        }
+        .price-note {
+            color: var(--gray-600);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+        .compliance-note {
+            background: var(--gray-50);
+            border-left: 4px solid var(--teal);
+            color: var(--gray-600);
+            font-size: 14px;
+            line-height: 1.7;
+            padding: 18px 20px;
+            margin: 28px 0;
+        }
+        @media (max-width: 800px) {
+            .tpa-grid,
+            .tpa-list,
+            .price-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <meta property="og:title" content="TPA / Consortium | Oxygen Medical Diagnostic Lab">
+    <meta property="og:description" content="Third Party Administrator (TPA) and Consortium services for DOT/FMCSA compliance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oxygendx.com/tpa.html">
+    <meta property="og:image" content="https://oxygendx.com/oxygen-group-logo.svg">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <!-- Top Bar -->
@@ -13,11 +141,11 @@
         <div class="container">
             <span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                8300 BROADWAY UNIT A1 MERRILLVILLE, NW INDIANA 46410
+                8300 BROADWAY UNIT D2 MERRILLVILLE, INDIANA 46410
             </span>
             <span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                <a href="tel:312-772-3381">312-772-3381</a> / <a href="tel:779-236-7071">779-236-7071</a>
+                <a href="tel:+12193060674">(219) 306-0674</a>
             </span>
         </div>
     </div>
@@ -26,7 +154,7 @@
     <header>
         <div class="container nav-inner">
             <a href="diagnostic.html" class="logo-area">
-                <img src="logo.png" alt="Oxygen Medical Diagnostic Lab Logo">
+                <img loading="eager" decoding="async" alt="Oxygen Medical Diagnostic Lab Logo" src="logo-cropped.png">
             </a>
             
             <ul class="nav-links">
@@ -57,8 +185,8 @@
     <div class="page-hero">
         <div class="container">
             <div class="breadcrumb"><a href="diagnostic.html">Home</a> / <a href="services.html">Services</a> / TPA Consortium</div>
-            <h1>TPA / CONSORTIUM SERVICES</h1>
-            <div class="price-tag">Contact for Pricing</div>
+            <h1 data-cms="hero.title">TPA / CONSORTIUM SERVICES</h1>
+            <div class="price-tag" data-cms="hero.tag">Price List Below</div>
         </div>
     </div>
 
@@ -66,19 +194,143 @@
     <section>
         <div class="container product-layout">
             <div class="product-body">
-                <img src="service-5.jpg" alt="TPA Consortium" style="width:100%; border-radius:12px; margin-bottom: 30px;">
-                <h2>Comprehensive DOT Compliance Management</h2>
-                <p>Oxygen Medical Diagnostic Lab serves as a Third-Party Administrator (TPA) managing all aspects of DOT drug and alcohol testing programs for owner-operators and carriers.</p>
-                <p>We handle the complex regulatory requirements so you can focus on your business operations.</p>
-                
-                <h3>What We Manage:</h3>
-                <ul>
-                    <li>Random Testing Pool Management</li>
-                    <li>FMCSA Clearinghouse Reporting & Queries</li>
-                    <li>Audit Assistance & Support</li>
-                    <li>Policy Development & Implementation</li>
-                    <li>Supervisor Training Records</li>
+                <img loading="lazy" decoding="async" height="300" width="600" src="clearinghouse-banner.svg" alt="FMCSA Drug and Alcohol Clearinghouse" class="clearinghouse-banner" data-cms="banner.image">
+                <h2 data-cms="intro.title">FMCSA Drug & Alcohol Testing Information</h2>
+                <p data-cms="intro.body1">Oxygen Medical Diagnostic Lab provides Third-Party Administrator (TPA) and Consortium services for owner-operators, CDL drivers, motor carriers, and DOT-regulated employers.</p>
+                <p data-cms="intro.body2">If your commercial motor vehicle operation falls under FMCSA authority, your program must follow FMCSA drug and alcohol testing rules under 49 CFR Part 382 and DOT testing procedures under 49 CFR Part 40.</p>
+
+                <div class="tpa-lead">
+                    <h3 data-cms="lead.title">C/TPA Support for Owner-Operators and Fleets</h3>
+                    <p data-cms="lead.body">A C/TPA helps with the day-to-day administration of DOT testing, including consortium enrollment, random pool participation, selection notices, testing coordination, Clearinghouse support, and compliance records.</p>
+                </div>
+
+                <h3>Who Needs FMCSA Compliance Support?</h3>
+                <ul class="tpa-list">
+                    <li>Owner-operators operating CDL vehicles in commerce</li>
+                    <li>Motor carriers with CDL drivers</li>
+                    <li>Companies using leased or contract CDL drivers</li>
+                    <li>Passenger carriers with CDL-required roles</li>
+                    <li>Employers with safety-sensitive transportation positions</li>
+                    <li>New carriers preparing DOT compliance records</li>
                 </ul>
+
+                <h3>Required FMCSA Testing Events</h3>
+                <div class="tpa-grid">
+                    <div class="tpa-card">
+                        <h3>Pre-Employment Drug Test</h3>
+                        <p>Completed before a driver performs safety-sensitive duties when required by DOT rules.</p>
+                    </div>
+                    <div class="tpa-card">
+                        <h3>Random Drug & Alcohol Testing</h3>
+                        <p>Drivers are placed in a compliant random pool, with selections managed throughout the year.</p>
+                    </div>
+                    <div class="tpa-card">
+                        <h3>Post-Accident Testing</h3>
+                        <p>Used after qualifying accidents when FMCSA criteria and timing requirements apply.</p>
+                    </div>
+                    <div class="tpa-card">
+                        <h3>Reasonable Suspicion</h3>
+                        <p>Based on trained supervisor observations, documented signs, and proper testing procedures.</p>
+                    </div>
+                    <div class="tpa-card">
+                        <h3>Return-to-Duty</h3>
+                        <p>Required after a violation and completion of the Substance Abuse Professional process.</p>
+                    </div>
+                    <div class="tpa-card">
+                        <h3>Follow-Up Testing</h3>
+                        <p>Additional testing schedule directed after return-to-duty requirements are met.</p>
+                    </div>
+                </div>
+
+                <h3>What Oxygen Manages</h3>
+                <ul class="tpa-list">
+                    <li>DOT consortium enrollment and certificate documentation</li>
+                    <li>Random testing pool management and quarterly selections</li>
+                    <li>FMCSA Clearinghouse query and support guidance</li>
+                    <li>Pre-employment, random, post-accident, RTD, and follow-up coordination</li>
+                    <li>Recordkeeping support for DOT compliance files</li>
+                    <li>DOT policy and compliance documentation guidance</li>
+                    <li>Supervisor reasonable suspicion training records</li>
+                    <li>MRO-reviewed lab results when applicable</li>
+                </ul>
+
+                <h3>FMCSA Clearinghouse Responsibilities</h3>
+                <p>The FMCSA Drug & Alcohol Clearinghouse is the federal database used to track DOT drug and alcohol program violations for CDL drivers. Employers must complete required pre-employment queries, annual queries for current drivers, and maintain proof of those actions with their compliance records.</p>
+
+                <div class="compliance-note">
+                    Keep documentation for each required step, including covered drivers, testing events, Clearinghouse queries, random selections, and training records. This page is general information and does not replace official DOT/FMCSA guidance.
+                </div>
+
+                <h3 data-cms="price.title">DOT Consortium & Testing Price List</h3>
+                <div class="price-grid" id="tpa-price-grid-live">
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 5 Panel DOT Drug Test">
+                        <h3>5 Panel DOT Drug Test</h3>
+                        <div class="price">$99.99</div>
+                        <p>DOT 5-panel urine drug screen.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 5 Panel DOT plus Breath Alcohol">
+                        <h3>5 Panel DOT + Breath Alcohol</h3>
+                        <div class="price">$169.99</div>
+                        <p>DOT drug test paired with breath alcohol testing.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 1 Year All-Inclusive Consortium">
+                        <h3>1 Year All-Inclusive Consortium</h3>
+                        <div class="price">$199.99</div>
+                        <p>Includes random testing pool participation and random testing fees.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 1 Year Consortium plus DOT Drug Test">
+                        <h3>1 Year Consortium + DOT Drug Test</h3>
+                        <div class="price">$249.99</div>
+                        <p>Membership plus a DOT drug test.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 1 Year Consortium plus Clearinghouse">
+                        <h3>1 Year Consortium + Clearinghouse</h3>
+                        <div class="price">$279.99</div>
+                        <p>Includes C/TPA Clearinghouse support and all random testing fees.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 2 Year All-Inclusive Consortium">
+                        <h3>2 Year All-Inclusive Consortium</h3>
+                        <div class="price">$279.99</div>
+                        <p>Two-year random pool membership with random testing fees included.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 3 Year All-Inclusive Consortium">
+                        <h3>3 Year All-Inclusive Consortium</h3>
+                        <div class="price">$369.99</div>
+                        <p>Three-year random pool membership with random testing fees included.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 5 Year All-Inclusive Consortium">
+                        <h3>5 Year All-Inclusive Consortium</h3>
+                        <div class="price">$499.99</div>
+                        <p>Five-year random pool membership with random testing fees included.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 2 Year Consortium plus Clearinghouse">
+                        <h3>2 Year Consortium + Clearinghouse</h3>
+                        <div class="price">$419.99</div>
+                        <p>Two-year consortium membership with Clearinghouse C/TPA support.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 3 Year Consortium plus Clearinghouse">
+                        <h3>3 Year Consortium + Clearinghouse</h3>
+                        <div class="price">$549.99</div>
+                        <p>Three-year consortium membership with Clearinghouse C/TPA support.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                    <a class="price-card" href="https://app.autobooks.co/pay/oxygen-medical-diagnostic" target="_blank" rel="noopener" aria-label="Pay for 5 Year Consortium plus DOT Drug Test">
+                        <h3>5 Year Consortium + DOT Drug Test</h3>
+                        <div class="price">$549.99</div>
+                        <p>Five-year membership plus DOT drug testing.</p>
+                        <span class="payment-action">Pay now</span>
+                    </a>
+                </div>
+                <p class="price-note">Prices are listed for service planning and must be confirmed during booking before payment or service delivery. Additional services may include DOT physicals, MVR reports, policy development, supervisor training, and Clearinghouse registration assistance.</p>
             </div>
             
             <div class="product-sidebar">
@@ -99,6 +351,9 @@
                 </div>
                 <a href="booking.html" class="cta-btn">Book Consultation</a>
                 <a href="contact.html" class="cta-btn-outline">Ask a Question</a>
+                <div class="compliance-note" style="margin-top:22px;">
+                    For DOT/FMCSA C/TPA questions, call <a href="tel:+12193060674" style="color:var(--navy);font-weight:800;">(219) 306-0674</a>.
+                </div>
             </div>
         </div>
     </section>
@@ -108,7 +363,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <img src="logo.png" alt="OMDL Logo">
+                    <img loading="eager" decoding="async" alt="OMDL Logo" src="logo-cropped.png">
                     <p>Oxygen Medical Diagnostic Lab is a consortium third-party administrator that provides truck drivers and carriers across America with compliance services.</p>
                 </div>
                 <div class="footer-col">
@@ -133,11 +388,11 @@
                     <h4>Contact</h4>
                     <div class="footer-contact-item">
                         <span>📍</span>
-                        <span>8300 BROADWAY UNIT A1<br>MERRILLVILLE, NW INDIANA 46410</span>
+                        <span>8300 BROADWAY UNIT D2<br>MERRILLVILLE, INDIANA 46410</span>
                     </div>
                     <div class="footer-contact-item">
                         <span>📞</span>
-                        <span>312-772-3381<br>779-236-7071</span>
+                        <span><a href="tel:+12193060674">(219) 306-0674</a></span>
                     </div>
                 </div>
             </div>
@@ -146,5 +401,11 @@
             </div>
         </div>
     </footer>
+    <script type="module">
+        import { renderTpaPricingCards } from './site-data.js';
+        renderTpaPricingCards('tpa-price-grid-live');
+    </script>
 </body>
 </html>
+
+

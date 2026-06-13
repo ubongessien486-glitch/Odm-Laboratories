@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc">
+  <title id="title">FMCSA Drug and Alcohol Clearinghouse</title>
+  <desc id="desc">A blue Federal Motor Carrier Safety Administration Clearinghouse banner with a truck on the road.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7c399"/>
+      <stop offset="0.48" stop-color="#f8e1c8"/>
+      <stop offset="1" stop-color="#d7e8f2"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#647181"/>
+      <stop offset="1" stop-color="#182535"/>
+    </linearGradient>
+    <linearGradient id="chrome" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.45" stop-color="#cbd5df"/>
+      <stop offset="1" stop-color="#7d8b98"/>
+    </linearGradient>
+    <clipPath id="photoCut">
+      <polygon points="286 0 600 0 600 300 210 300"/>
+    </clipPath>
+  </defs>
+
+  <rect width="600" height="300" fill="#14295b"/>
+
+  <g clip-path="url(#photoCut)">
+    <rect x="180" width="420" height="300" fill="url(#sky)"/>
+    <path d="M182 194 C280 158 394 136 600 118 L600 300 L182 300 Z" fill="#d48b55" opacity=".45"/>
+    <path d="M188 214 C304 184 450 172 600 164 L600 300 L188 300 Z" fill="url(#road)"/>
+    <path d="M328 300 L493 178" stroke="#f3f8fb" stroke-width="5" opacity=".62"/>
+    <path d="M252 298 L438 172" stroke="#f3f8fb" stroke-width="2" opacity=".28"/>
+
+    <g transform="translate(356 82)">
+      <rect x="60" y="58" width="120" height="58" rx="4" fill="#dfe7ee" stroke="#1d2f45" stroke-width="4"/>
+      <rect x="176" y="70" width="36" height="42" rx="3" fill="#c8d3dc" stroke="#1d2f45" stroke-width="4"/>
+      <path d="M14 54 L58 54 L78 116 L0 116 L0 74 C0 63 5 56 14 54Z" fill="url(#chrome)" stroke="#1d2f45" stroke-width="4"/>
+      <rect x="22" y="21" width="20" height="40" rx="2" fill="#e9f0f5" stroke="#1d2f45" stroke-width="4"/>
+      <rect x="74" y="21" width="16" height="40" rx="2" fill="#e9f0f5" stroke="#1d2f45" stroke-width="4"/>
+      <rect x="19" y="65" width="39" height="28" rx="3" fill="#7fa9bf"/>
+      <rect x="6" y="86" width="42" height="22" rx="2" fill="#1f2937"/>
+      <g stroke="#e5edf3" stroke-width="3">
+        <path d="M13 89 L43 89"/>
+        <path d="M13 95 L43 95"/>
+        <path d="M13 101 L43 101"/>
+      </g>
+      <circle cx="31" cy="119" r="16" fill="#111827"/>
+      <circle cx="31" cy="119" r="7" fill="#d9e3eb"/>
+      <circle cx="136" cy="119" r="16" fill="#111827"/>
+      <circle cx="136" cy="119" r="7" fill="#d9e3eb"/>
+      <circle cx="185" cy="119" r="16" fill="#111827"/>
+      <circle cx="185" cy="119" r="7" fill="#d9e3eb"/>
+      <rect x="84" y="48" width="8" height="12" rx="2" fill="#f59e0b"/>
+      <rect x="104" y="48" width="8" height="12" rx="2" fill="#f59e0b"/>
+      <rect x="124" y="48" width="8" height="12" rx="2" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <polygon points="0 0 306 0 222 300 0 300" fill="#172b5f"/>
+  <polygon points="0 0 294 0 210 300 0 300" fill="#172b5f"/>
+
+  <g transform="translate(32 20)" fill="#f7fbff">
+    <circle cx="30" cy="30" r="29"/>
+    <path d="M30 6 C47 6 57 19 54 35 C47 24 36 22 25 29 C15 35 11 45 14 55 C4 49 0 36 5 24 C9 13 18 6 30 6Z" fill="#172b5f"/>
+    <path d="M11 25 C22 32 28 43 24 56 C36 53 46 45 48 33 C37 41 25 38 11 25Z" fill="#172b5f"/>
+  </g>
+
+  <text x="32" y="88" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">U.S. Department</text>
+  <text x="32" y="111" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">of Transportation</text>
+  <text x="32" y="148" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="800">Federal Motor</text>
+  <text x="32" y="172" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="800">Carrier Safety</text>
+  <text x="32" y="196" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="800">Administration</text>
+
+  <text x="32" y="246" fill="#31d7ee" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="900" letter-spacing="3">DRUG &amp; ALCOHOL</text>
+  <text x="32" y="280" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="35" font-weight="400">CLEARINGHOUSE</text>
+</svg>

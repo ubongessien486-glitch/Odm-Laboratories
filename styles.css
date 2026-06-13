@@ -1141,3 +1141,12 @@ footer {
     filter: none;
   }
 }
+
+
+/* EMERGENCY FIX: DISABLE ALL REVEAL HIDING */
+.motion-ready .motion-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    visibility: visible !important;
+}

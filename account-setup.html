@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDL Corporate Account Setup | Oxygen Medical Diagnostic Lab</title>
+    <meta name="description" content="Setup your corporate account with OMDL.">
+    <link rel="stylesheet" href="styles.css?v=3000">
+    <style>
+        .setup-wrapper {
+            background: #f8fbfc;
+            padding: 60px 0;
+            min-height: 80vh;
+        }
+        .setup-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+        .setup-sidebar {
+            width: 300px;
+            background: linear-gradient(135deg, #001f3f 0%, #003A70 100%);
+            color: #fff;
+            padding: 40px 30px;
+            flex-shrink: 0;
+        }
+        .setup-sidebar h3 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+        .setup-steps {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .setup-steps li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0.6;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .setup-steps li:last-child {
+            border-bottom: none;
+        }
+        .setup-steps li.active {
+            opacity: 1;
+            color: #60b3d1;
+        }
+        .setup-steps li:hover {
+            opacity: 1;
+        }
+        .step-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .setup-content {
+            flex-grow: 1;
+            padding: 50px;
+        }
+        .setup-step-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .setup-step-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Form Styles inside setup */
+        .setup-content h2 {
+            color: var(--navy);
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        .setup-content p {
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+        .form-label {
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 14px;
+        }
+        .form-label span {
+            color: #c8202f;
+        }
+        .form-input, .form-select {
+            padding: 12px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--care);
+            box-shadow: 0 0 0 3px rgba(96, 179, 209, 0.15);
+        }
+        
+        /* Checkbox Grid */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gray-600);
+            font-size: 15px;
+            cursor: pointer;
+        }
+        
+        .setup-actions {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 24px;
+        }
+        
+        .info-box {
+            background: rgba(96, 179, 209, 0.05);
+            border-left: 4px solid var(--care);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 6px 6px 0;
+        }
+        .info-box h4 {
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        .info-box ul {
+            padding-left: 20px;
+            color: var(--gray-600);
+        }
+        .info-box ul li {
+            margin-bottom: 6px;
+        }
+        
+        .signature-box {
+            border: 1px dashed var(--gray-400);
+            background: #fafafa;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-500);
+            margin-top: 10px;
+            border-radius: 6px;
+            cursor: crosshair;
+        }
+        
+        /* Downloads Section */
+        .download-card {
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .download-card:hover {
+            border-color: var(--care);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .download-info h4 {
+            color: var(--navy);
+            margin: 0 0 5px 0;
+        }
+        .download-info p {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 900px) {
+            .setup-container {
+                flex-direction: column;
+            }
+            .setup-sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            .setup-steps {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .setup-steps li {
+                border-bottom: none;
+                padding: 8px 12px;
+                background: rgba(255,255,255,0.1);
+                border-radius: 6px;
+            }
+            .setup-content {
+                padding: 30px 20px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                8300 BROADWAY UNIT A1 MERRILLVILLE, NW INDIANA 46410
+            </span>
+            <span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <a href="tel:312-772-3381">312-772-3381</a> / <a href="tel:779-236-7071">779-236-7071</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-inner">
+            <a href="diagnostic.html" class="logo-area">
+                <img src="logo.png" alt="Oxygen Medical Diagnostic Lab Logo">
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="diagnostic.html">HOME</a></li>
+                <li><a href="services.html">Services & Training</a></li>
+                <li><a href="employment-testing.html">Employment Testing</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="booking.html" class="nav-cta">Book Now</a></li>
+            </ul>
+
+            <div class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="setup-wrapper">
+        <div class="container">
+            <div class="setup-container">
+                
+                <!-- Sidebar -->
+                <div class="setup-sidebar">
+                    <h3>Corporate Onboarding</h3>
+                    <ul class="setup-steps">
+                        <li class="active" onclick="showStep(1)" id="nav-step-1">
+                            <div class="step-circle">1</div>
+                            Program Info
+                        </li>
+                        <li onclick="showStep(2)" id="nav-step-2">
+                            <div class="step-circle">2</div>
+                            Account Setup
+                        </li>
+                        <li onclick="showStep(3)" id="nav-step-3">
+                            <div class="step-circle">3</div>
+                            Billing Info
+                        </li>
+                        <li onclick="showStep(4)" id="nav-step-4">
+                            <div class="step-circle">4</div>
+                            Agreements
+                        </li>
+                        <li onclick="showStep(5)" id="nav-step-5">
+                            <div class="step-circle">5</div>
+                            Rosters & Forms
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Main Content -->
+                <div class="setup-content">
+                    
+                    <!-- STEP 1: INFO -->
+                    <div class="setup-step-content active" id="step-1">
+                        <h2>Welcome to OMDL Corporate Partner Setup</h2>
+                        <p>Thank you for your interest in partnering with Oxygen Medical Diagnostic Laboratory (OMDL). We are committed to providing reliable, compliant, and efficient drug testing, laboratory, and occupational health services to businesses of all sizes.</p>
+                        
+                        <div class="info-box">
+                            <h4>Account Holder Benefits</h4>
+                            <ul>
+                                <li>Monthly billing options</li>
+                                <li>Preferred client pricing</li>
+                                <li>Compliance guidance & dedicated support</li>
+                                <li>Streamlined scheduling services</li>
+                            </ul>
+                        </div>
+
+                        <h3>Testing Services Available</h3>
+                        <p>OMDL offers a comprehensive range of specimen collection and testing methods, including Urine, Hair Follicle, Oral Fluid, Blood, and Breath Alcohol Testing (BAT).</p>
+                        
+                        <div class="form-grid">
+                            <div class="info-box" style="border-left-color: #2f7a43;">
+                                <h4>Drug Detection Timeframes</h4>
+                                <ul>
+                                    <li><strong>Urine Testing:</strong> Detects recent use (1 to 5 days).</li>
+                                    <li><strong>Hair Follicle:</strong> Detects history up to 90 days.</li>
+                                </ul>
+                            </div>
+                            <div class="info-box" style="border-left-color: #173966;">
+                                <h4>Results Reporting</h4>
+                                <ul>
+                                    <li><strong>Negative Results:</strong> Within 24 hours.</li>
+                                    <li><strong>Non-Negative:</strong> Within 72 hours (after MRO review).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="setup-actions" style="justify-content: flex-end;">
+                            <button type="button" class="btn-primary" onclick="showStep(2)">Proceed to Setup Form</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: SETUP -->
+                    <div class="setup-step-content" id="step-2">
+                        <h2>Website Account Setup</h2>
+                        <p>Please provide your company details to establish your OMDL corporate account.</p>
+                        
+                        <form id="accountForm">
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label class="form-label">Company Name <span>*</span></label>
+                                    <input type="text" class="form-input" required placeholder="Legal Business Name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Primary Contact First Name <span>*</span></label>
+                                    <input type="text" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Primary Contact Last Name <span>*</span></label>
+                                    <input type="text" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Contact Phone <span>*</span></label>
+                                    <input type="tel" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Contact Email <span>*</span></label>
+                                    <input type="email" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Industry <span>*</span></label>
+                                    <select class="form-select" required>
+                                        <option value="">- Select Industry -</option>
+                                        <option>Transportation / Logistics</option>
+                                        <option>Healthcare / Medical</option>
+                                        <option>Construction</option>
+                                        <option>Manufacturing</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Number of Employees <span>*</span></label>
+                                    <input type="number" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group full" style="margin-top: 15px;">
+                                    <h4 style="margin-bottom: 5px;">Company Address</h4>
+                                </div>
+                                <div class="form-group full">
+                                    <input type="text" class="form-input" required placeholder="Street Address">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-input" required placeholder="City">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-input" required placeholder="State/Province">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-input" required placeholder="Zip/Postal Code">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-input" value="United States" readonly>
+                                </div>
+
+                                <div class="form-group full" style="margin-top: 15px;">
+                                    <h4 style="margin-bottom: 5px;">Testing Configuration</h4>
+                                    <hr style="border-top:1px solid var(--gray-200); margin-bottom:15px;">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Regulated by DOT - Part 40? <span>*</span></label>
+                                    <select class="form-select" required>
+                                        <option value="">- Select -</option>
+                                        <option>Yes - DOT Regulated</option>
+                                        <option>No - Non-DOT Regulated</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">DOT Agency (mode)</label>
+                                    <select class="form-select">
+                                        <option value="">- Select (if applicable) -</option>
+                                        <option>FMCSA</option>
+                                        <option>FAA</option>
+                                        <option>FRA</option>
+                                        <option>FTA</option>
+                                        <option>PHMSA</option>
+                                        <option>USCG</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label class="form-label">Testing Purpose <span>*</span></label>
+                                    <div class="checkbox-grid">
+                                        <label class="checkbox-label"><input type="checkbox"> Pre Employment</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Random</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Post Accident</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Reasonable Suspicion</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Other</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label class="form-label">Testing Services Required <span>*</span></label>
+                                    <div class="checkbox-grid">
+                                        <label class="checkbox-label"><input type="checkbox"> Urine Testing</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Alcohol Testing</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Hair Testing</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Oral Fluid Testing</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Blood Testing</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label class="form-label">Testing Panels <span>*</span></label>
+                                    <div class="checkbox-grid">
+                                        <label class="checkbox-label"><input type="checkbox"> 5 panel DOT</label>
+                                        <label class="checkbox-label"><input type="checkbox"> 5 panel / 5 Panel Instant</label>
+                                        <label class="checkbox-label"><input type="checkbox"> 10 panel / 10 Panel Instant</label>
+                                        <label class="checkbox-label"><input type="checkbox"> 12 panel / 14 panel</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group full">
+                                    <label class="form-label">Additional Services <span>*</span></label>
+                                    <div class="checkbox-grid">
+                                        <label class="checkbox-label"><input type="checkbox"> DOT Consortium Membership</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Physicals & Background Checks</label>
+                                        <label class="checkbox-label"><input type="checkbox"> Drug Free Work Place Program</label>
+                                        <label class="checkbox-label"><input type="checkbox"> On Site / Mobile Testing</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="setup-actions">
+                            <button type="button" class="btn-outline" onclick="showStep(1)">Back</button>
+                            <button type="button" class="btn-primary" onclick="showStep(3)">Next: Billing Info</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: BILLING -->
+                    <div class="setup-step-content" id="step-3">
+                        <h2>Billing & Credit Card Authorization</h2>
+                        <div class="info-box">
+                            <p style="margin:0;">A valid credit card must be maintained on file and will only be charged for invoices which are past due. <strong>OMDL members will automatically receive a 5% discount on all tests and services.</strong></p>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label class="form-label">Invoice Method <span>*</span></label>
+                                <select class="form-select" required>
+                                    <option value="">- Select -</option>
+                                    <option>Invoice My Company (net 30 days)</option>
+                                    <option>Charge Card on File 1st of each month</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Name on Card <span>*</span></label>
+                                <input type="text" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Card Number <span>*</span></label>
+                                <input type="text" class="form-input" required placeholder="XXXX-XXXX-XXXX-XXXX">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Expiration Date <span>*</span></label>
+                                <input type="text" class="form-input" required placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Security Code (CVV) <span>*</span></label>
+                                <input type="text" class="form-input" required placeholder="123">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Billing Zip Code <span>*</span></label>
+                                <input type="text" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="setup-actions">
+                            <button type="button" class="btn-outline" onclick="showStep(2)">Back</button>
+                            <button type="button" class="btn-primary" onclick="showStep(4)">Next: Agreements</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: AGREEMENTS -->
+                    <div class="setup-step-content" id="step-4">
+                        <h2>Terms & Agreements</h2>
+                        <p>Please review and acknowledge the required service agreements.</p>
+                        
+                        <div style="background: #f9f9f9; padding: 20px; border: 1px solid #eee; height: 150px; overflow-y: scroll; margin-bottom: 20px; font-size: 14px; color: var(--gray-600);">
+                            <strong>CLIENT SERVICE AGREEMENT</strong><br><br>
+                            1. SERVICES PROVIDED<br>
+                            OMDL agrees to provide Drug Testing, Alcohol Testing, DOT Compliance, and related Occupational Health Services.<br><br>
+                            2. PAYMENT TERMS<br>
+                            Standard payment terms: Net 30 Days. Invoices unpaid after 30 days may incur late fees.<br><br>
+                            3. CONFIDENTIALITY<br>
+                            OMDL shall maintain the confidentiality of all client and employee information in accordance with applicable federal and state laws, including HIPAA where applicable.<br><br>
+                            4. COMPLIANCE<br>
+                            Services shall be provided in accordance with applicable DOT, SAMHSA, CLIA, HIPAA, OSHA, and state regulations.<br><br>
+                            5. LIMITATION OF LIABILITY<br>
+                            OMDL's liability shall be limited to the amount paid for the specific service provided.
+                        </div>
+
+                        <label class="checkbox-label" style="font-weight:600; color:var(--navy); margin-bottom: 20px;">
+                            <input type="checkbox" required> I accept the Terms and Conditions and HIPAA Business Associate Agreement.
+                        </label>
+
+                        <div class="form-group full">
+                            <label class="form-label">Signature <span>*</span></label>
+                            <p style="font-size: 13px; margin: 0;">I am authorized to establish an account with OXYGEN MEDICAL DIAGNOSTIC LAB.</p>
+                            <div class="signature-box">
+                                [ E-Signature Field ]
+                            </div>
+                            <div style="text-align: right; margin-top: 5px;">
+                                <a href="#" style="font-size: 12px; color: var(--gray-500); text-decoration: underline;">Clear Signature</a>
+                            </div>
+                        </div>
+
+                        <div class="setup-actions">
+                            <button type="button" class="btn-outline" onclick="showStep(3)">Back</button>
+                            <button type="button" class="btn-primary" onclick="submitForm()">Submit Account Application</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 5: TEMPLATES -->
+                    <div class="setup-step-content" id="step-5">
+                        <h2>Application Submitted!</h2>
+                        <p>Thank you for submitting your account setup. Our team will review your information and contact you shortly. In the meantime, you can download the following required templates and forms for your ongoing testing needs.</p>
+                        
+                        <div class="download-card">
+                            <div class="download-info">
+                                <h4>Employee Roster Template</h4>
+                                <p>Excel template for bulk importing your employee roster.</p>
+                            </div>
+                            <a href="#" class="btn-outline" style="padding: 8px 16px; font-size: 14px;">Download .CSV</a>
+                        </div>
+
+                        <div class="download-card">
+                            <div class="download-info">
+                                <h4>Laboratory Test Requisition Form</h4>
+                                <p>Standard requisition form for walk-in testing.</p>
+                            </div>
+                            <a href="#" class="btn-outline" style="padding: 8px 16px; font-size: 14px;">Download PDF</a>
+                        </div>
+
+                        <div class="download-card">
+                            <div class="download-info">
+                                <h4>Mobile Collection Request Form</h4>
+                                <p>Request on-site or mobile collection events for 10+ employees.</p>
+                            </div>
+                            <a href="#" class="btn-outline" style="padding: 8px 16px; font-size: 14px;">Download PDF</a>
+                        </div>
+
+                        <div class="download-card">
+                            <div class="download-info">
+                                <h4>DOT Consortium Enrollment Form</h4>
+                                <p>Enroll your safety-sensitive employees in our DOT random pool.</p>
+                            </div>
+                            <a href="#" class="btn-outline" style="padding: 8px 16px; font-size: 14px;">Download PDF</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (Basic) -->
+    <footer style="background: var(--navy); color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2024 Oxygen Medical Diagnostic Lab. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showStep(stepIndex) {
+            // Hide all steps
+            document.querySelectorAll('.setup-step-content').forEach(el => el.classList.remove('active'));
+            // Remove active class from nav
+            document.querySelectorAll('.setup-steps li').forEach(el => el.classList.remove('active'));
+            
+            // Show selected step
+            document.getElementById('step-' + stepIndex).classList.add('active');
+            document.getElementById('nav-step-' + stepIndex).classList.add('active');
+            
+            // Scroll to top of container
+            document.querySelector('.setup-wrapper').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function submitForm() {
+            // In a real application, validate form fields and send data to server
+            alert("Account Application Submitted Successfully! We will review and contact you shortly.");
+            showStep(5);
+        }
+    </script>
+</body>
+</html>

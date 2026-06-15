@@ -3,5 +3,7 @@
   "alias": [
     "oxygendx.com",
     "www.oxygendx.com"
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }

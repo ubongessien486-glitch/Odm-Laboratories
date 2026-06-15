@@ -581,7 +581,158 @@
 .dfwp-price-card__price { font-size: 20px !important; font-weight: 700 !important; }
 .dfwp-pay-btn, .dfwp-inquiry-btn { padding: 10px 16px !important; font-size: 14px !important; border-radius: 6px !important; white-space: nowrap !important; width: auto !important; flex: 0 0 auto !important; }
 .dfwp-service-badge { font-size: 11px !important; padding: 4px 8px !important; align-self: flex-start !important; }
-</style>
+
+        /* ?? DESIGN VIBES FOR WORKPLACE INFO SECTION */
+        .vibes-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+            border-radius: 24px;
+            padding: clamp(30px, 5vw, 50px);
+            box-shadow: 0 10px 40px rgba(0,31,63,0.04);
+            margin: 40px 0;
+            border: 1px solid rgba(255,255,255,0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        .vibes-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, #001f3f, #173966, #ffc439);
+        }
+        .vibes-title {
+            font-family: "Plus Jakarta Sans", Inter, sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #001f3f 0%, #1e4d8c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .vibes-lead {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.7;
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+        .vibes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+        .vibes-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,31,63,0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .vibes-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,196,57,0.05), rgba(0,31,63,0.02));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        .vibes-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,31,63,0.08);
+            border-color: rgba(0,31,63,0.15);
+        }
+        .vibes-card:hover::after {
+            opacity: 1;
+        }
+        .vibes-card-icon {
+            width: 48px;
+            height: 48px;
+            background: #f0f5fb;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: #173966;
+            transition: all 0.3s ease;
+        }
+        .vibes-card:hover .vibes-card-icon {
+            background: #173966;
+            color: #ffc439;
+            transform: scale(1.05) rotate(-3deg);
+        }
+        .vibes-card h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #001f3f;
+            margin-bottom: 10px;
+            font-family: "Plus Jakarta Sans", Inter, sans-serif;
+        }
+        .vibes-card p {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .vibes-highlight-box {
+            background: linear-gradient(135deg, #001f3f, #173966);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,31,63,0.15);
+        }
+        .vibes-highlight-box::before {
+            content: '??';
+            position: absolute;
+            right: -20px;
+            bottom: -30px;
+            font-size: 120px;
+            opacity: 0.1;
+        }
+        .vibes-highlight-box h3 {
+            color: #ffc439;
+            font-family: "Plus Jakarta Sans", Inter, sans-serif;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .vibes-highlight-box p {
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+        .vibes-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .vibes-list li {
+            position: relative;
+            padding-left: 30px;
+            color: #f8fafc;
+            line-height: 1.6;
+        }
+        .vibes-list li::before {
+            content: '?';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #ffc439;
+            font-weight: bold;
+        }
+
+    </style>
 <link rel="stylesheet" href="styles.css?v=5"><link rel="stylesheet" href="styles.css?v=5"></head>
 <body>
 
@@ -686,84 +837,84 @@
          PRICE LIST SECTION
     ══════════════════════════════ -->
     
-    <!-- EMPLOYMENT DRUG TESTING INFO CONTENT -->
+    
+    <!-- EMPLOYMENT DRUG TESTING INFO CONTENT WITH VIBES -->
     <section class="dfwp-section" style="padding-bottom: 0;">
-        <div class="container product-layout">
-            <div class="product-body">
-                <h2>Drug-Free Workplace Programs</h2>
-                <p>Non-DOT employers still benefit from maintaining a structured drug-free workplace program. These programs often include pre-employment, random, post-accident, and reasonable suspicion testing as part of a written policy.</p>
+        <div class="container">
+            <div class="vibes-section">
+                <span class="dfwp-section-label" style="background:#f0f5fb;color:#173966;font-weight:700;margin-bottom:15px;display:inline-block;padding:6px 14px;border-radius:30px;text-transform:uppercase;font-size:13px;letter-spacing:1px;">Overview</span>
+                <h2 class="vibes-title">Drug-Free Workplace Programs</h2>
+                <p class="vibes-lead">Non-DOT employers still benefit from maintaining a structured drug-free workplace program. These programs often include pre-employment, random, post-accident, and reasonable suspicion testing to <strong style="color:#173966;">protect your business, reduce liability, improve employee safety, and lower workers' compensation costs.</strong></p>
 
-                <div class="tpa-lead">
-                    <h3>Why Implement Workplace Drug Testing?</h3>
-                    <p>A structured drug-free workplace program protects your business, reduces liability, improves employee safety, and can lower workers' compensation costs. Our testing programs are designed to help employers of all sizes maintain compliant, defensible drug testing policies.</p>
-                </div>
-
-                <h3>Types of Workplace Testing</h3>
-                <div class="tpa-grid">
-                    <div class="tpa-card">
-                        <h3>Pre-Employment Testing</h3>
+                <h3 style="font-family:'Plus Jakarta Sans',sans-serif; color:#001f3f; font-size: 24px; margin-top:40px; margin-bottom: 5px;">Types of Workplace Testing</h3>
+                <p style="color:#64748b; margin-bottom: 20px;">Comprehensive solutions for every stage of employment.</p>
+                
+                <div class="vibes-grid">
+                    <div class="vibes-card">
+                        <div class="vibes-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+                        </div>
+                        <h3>Pre-Employment</h3>
                         <p>Screen candidates before hiring to ensure a drug-free workforce from day one.</p>
                     </div>
-                    <div class="tpa-card">
+                    <div class="vibes-card">
+                        <div class="vibes-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85.83 6.72 2.24"></path><path d="M21 3v9h-9"></path></svg>
+                        </div>
                         <h3>Random Testing</h3>
                         <p>Unannounced, scientifically random selection testing conducted throughout the calendar year.</p>
                     </div>
-                    <div class="tpa-card">
-                        <h3>Post-Accident Testing</h3>
+                    <div class="vibes-card">
+                        <div class="vibes-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <h3>Post-Accident</h3>
                         <p>Immediate testing following any qualifying workplace incident or accident.</p>
                     </div>
-                    <div class="tpa-card">
+                    <div class="vibes-card">
+                        <div class="vibes-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3x"></path><path d="M22 12h-3"></path><path d="M12 2v3"></path><path d="M12 22v-3"></path><path d="M4.93 4.93l2.12 2.12"></path><path d="M19.07 19.07l-2.12-2.12"></path><path d="M14.83 9.17l2.12-2.12"></path><path d="M14.83 14.83l2.12 2.12"></path><path d="M9.17 14.83l-2.12 2.12"></path><path d="M9.17 9.17L7.05 7.05"></path></svg>
+                        </div>
                         <h3>Reasonable Suspicion</h3>
                         <p>Based on trained supervisor observations and documented signs of impairment.</p>
                     </div>
-                    <div class="tpa-card">
+                    <div class="vibes-card">
+                        <div class="vibes-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M1 4l22 22"></path><path d="M10.49 14.5a9 9 0 1 0-9.4-4.5"></path></svg>
+                        </div>
                         <h3>Return-to-Duty</h3>
-                        <p>Required before an employee can resume duties after a policy violation and completion of treatment.</p>
+                        <p>Required before an employee can resume duties after a policy violation.</p>
                     </div>
-                    <div class="tpa-card">
+                    <div class="vibes-card">
+                        <div class="vibes-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        </div>
                         <h3>Follow-Up Testing</h3>
                         <p>Ongoing unannounced testing schedule after an employee returns to duty.</p>
                     </div>
                 </div>
 
-                <h3>HHS Drug Testing Standards</h3>
-                <p>The Department of Health and Human Services (HHS) established the Mandatory Guidelines for Federal Workplace Drug Testing Programs to ensure accuracy and reliability. While binding for Federal Agencies and DOT, private companies frequently adopt these guidelines to demonstrate compliance with the highest available testing standards.</p>
+                <div class="vibes-highlight-box">
+                    <h3>HHS Drug Testing Standards</h3>
+                    <p style="margin-bottom:20px;">While binding for Federal Agencies and DOT, private companies frequently adopt these guidelines to demonstrate compliance with the highest available testing standards. Our standard panel adheres strictly to HHS guidelines:</p>
+                    <ul class="vibes-list">
+                        <li>Marijuana metabolites (THC)</li>
+                        <li>Cocaine metabolites</li>
+                        <li>Amphetamines (Meth, MDMA, MDA)</li>
+                        <li>Phencyclidine (PCP)</li>
+                        <li>Opioids (Codeine, Morphine, Oxycodone, etc.)</li>
+                        <li>Extended panels available upon request</li>
+                    </ul>
+                </div>
+                
+                <h3 style="font-family:'Plus Jakarta Sans',sans-serif; color:#001f3f; font-size: 20px; margin-top:30px;">Compliance &amp; Best Practices</h3>
+                <p style="color:#4a5568; line-height: 1.7; margin-bottom: 15px;">We mandate a highly standardized and meticulous process for collecting and handling specimens. We utilize the Federal Custody and Control Form (CCF) as the official chain of custody document, tracking the specimen chronologically from donor to testing laboratory.</p>
+                <p style="color:#4a5568; line-height: 1.7; margin-bottom: 25px;">A Medical Review Officer (MRO) plays a specialized and impartial role in the post-analysis phase, acting as a gatekeeper to interpret confirmed laboratory results and verify legitimate medical explanations (such as a valid prescription) to protect donor privacy.</p>
 
-                <h3>The Required Drug Testing Panel</h3>
-                <p>Our standard panel adheres strictly to HHS guidelines, which require testing for five major categories to ensure precision and eliminate false positives:</p>
-                <ul class="tpa-list">
-                    <li><strong>Marijuana metabolites (THC)</strong></li>
-                    <li><strong>Cocaine metabolites</strong></li>
-                    <li><strong>Amphetamines</strong> — including methamphetamine, MDMA, and MDA</li>
-                    <li><strong>Phencyclidine (PCP)</strong></li>
-                    <li><strong>Opioids</strong> — codeine, morphine, 6-AM, oxycodone, and hydrocodone</li>
-                    <li><strong>Extended panels</strong> available upon request</li>
-                </ul>
-
-                <h3>Specimen Collection &amp; Handling</h3>
-                <p>We mandate a highly standardized and meticulous process for collecting and handling specimens to ensure sample integrity. We utilize the Federal Custody and Control Form (CCF) as the official chain of custody document, tracking the specimen chronologically from donor to testing laboratory.</p>
-
-                <h3>Medical Review Officer (MRO)</h3>
-                <p>A Medical Review Officer (MRO) is a licensed physician who plays a specialized and impartial role in the post-analysis phase. The MRO acts as a gatekeeper, interpreting confirmed laboratory results to ensure the integrity of the process and verifying legitimate medical explanations (such as a valid prescription) to protect donor privacy.</p>
-
-                <h3>FAA &amp; Aviation Compliance (14 CFR Part 120)</h3>
-                <p>For employers operating under the jurisdiction of the Federal Aviation Administration (FAA), we support comprehensive drug testing programs in accordance with 14 CFR Part 120, Subpart E. These stringent requirements ensure safety across the aviation industry for flight crews, dispatchers, mechanics, and other safety-sensitive employees.</p>
-
-                <ul class="tpa-list">
-                    <li>Pre-employment testing before safety-sensitive roles</li>
-                    <li>Unannounced random testing throughout the year</li>
-                    <li>Post-accident testing following qualifying incidents</li>
-                    <li>Reasonable cause testing with supervisor documentation</li>
-                    <li>Return-to-duty testing after violations</li>
-                    <li>Follow-up testing for returning employees</li>
-                </ul>
-
-                <div class="compliance-note">
-                    This page provides general information about employment drug testing programs. For specific regulatory guidance, consult the applicable federal or state authority. Contact us to discuss your organization's testing needs.
+                <div class="compliance-note" style="background:#fff3cd; border-left:4px solid #ffc439; padding:15px 20px; border-radius:8px; color:#856404; font-size:14px; margin-top:30px;">
+                    <strong>Note:</strong> This page provides general information about employment drug testing programs. For employers operating under the jurisdiction of the Federal Aviation Administration (FAA), we support comprehensive drug testing programs in accordance with 14 CFR Part 120, Subpart E. Contact us for specific regulatory guidance.
                 </div>
             </div>
-            
-            
         </div>
     </section>
     

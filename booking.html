@@ -116,6 +116,7 @@
 
     <script type="module">
         import { supabase } from './supabase.js';
+        import { sendWeb3FormsNotification } from './form-notifications.js';
 
         document.querySelector('.booking-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -149,23 +150,22 @@
                 ]);
 
             // Web3Forms Integration for instant email notification
-            const formData = new FormData();
-            formData.append('access_key', '6ca01595-fa75-4d60-a4b5-2f8a9aee2c3d');
-            formData.append('ccemail', 'info@oxygendx.com,ubongessien486@gmail.com');
-            formData.append('subject', 'New Booking Request - Oxygen Group');
-            formData.append('First Name', firstName);
-            formData.append('Last Name', lastName);
-            formData.append('Email', email);
-            formData.append('Phone', phone);
-            formData.append('Service Requested', serviceType);
-            formData.append('Preferred Date', date);
-            formData.append('Preferred Time', time);
-            formData.append('Notes', notes);
-
-            await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData
-            });
+            let emailError = null;
+            try {
+                await sendWeb3FormsNotification({
+                    subject: 'New Booking Request - Oxygen Group',
+                    'First Name': firstName,
+                    'Last Name': lastName,
+                    Email: email,
+                    Phone: phone,
+                    'Service Requested': serviceType,
+                    'Preferred Date': date,
+                    'Preferred Time': time,
+                    Notes: notes
+                });
+            } catch (err) {
+                emailError = err;
+            }
 
             btn.textContent = 'Submit Booking Request';
             btn.disabled = false;
@@ -173,6 +173,9 @@
             if (error) {
                 alert('There was an error submitting your request. Please try again.');
                 console.error(error);
+            } else if (emailError) {
+                alert('There was an error sending your booking notification. Please call 219-306-0674 for assistance.');
+                console.error('Booking email notification failed.', emailError?.message || emailError);
             } else {
                 alert('Thank you! Your booking request has been submitted. Our team will contact you shortly to confirm your appointment.');
                 window.location.href = 'diagnostic.html';
